@@ -10,6 +10,8 @@ website:
         text: Resources
       - href: "Manipulating and Joining Data in R with dplyr.qmd"
         text: Presentation
+      - href: workshop-script.qmd
+        text: Script
 
 format:
   html:
