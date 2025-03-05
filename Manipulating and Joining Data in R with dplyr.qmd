@@ -6,18 +6,31 @@ date: October 11, 2024
 format:
   revealjs: 
     theme: serif
-    incremental: true  
+    incremental: true
+    embed-resources: true
 df-print: paged
 execute:
   echo: true
 editor: visual
 ---
 
-## This webinar will be recorded! 🎥
+## Logistics
 
 Your continued participation indicates your consent to be recorded. This recording may be shared with the JHU community.
 
 Any questions you ask verbally or in chat will be edited to protect your identity.
+
+-   If you have questions throughout the webinar, please put them in the chat for our TA to answer (or message the TA directly)
+
+::: notes
+We have a lot to cover today and I may not be able to answer all questions
+
+Our TA will assist you
+
+If you have a general question, I encourage you to message the full chat because someone else might have the same question and will benefit from the answer
+
+PRESS RECORD
+:::
 
 ## JHU Data Services
 
@@ -32,6 +45,12 @@ Any questions you ask verbally or in chat will be edited to protect your identit
 ## What you will learn today
 
 -   How to reshape data using the powerful `dplyr` package
+
+    -   Calculate new variables to analyze
+
+    -   Summarize data differently to suit your unit of analysis
+
+    -   Sort data to make it easier to visualize
 
 -   How to use the pipe `|>` to simplify code
 
@@ -51,14 +70,10 @@ Any questions you ask verbally or in chat will be edited to protect your identit
 
     -   Basic terminology of R or programming in general
 
-## Why reshape data?
+::: notes
+-   Go to RStudio and open up the file class_script_blank.R
 
-::: incremental
--   Calculate new variables to analyze
-
--   Summarize data differently to suit your unit of analysis
-
--   Rearrange or sort data to make it easier to visualize
+-   Make sure everyone can open the file
 :::
 
 ## Libraries
@@ -70,6 +85,12 @@ Today we'll be using the tidyverse library, which includes dplyr.
 
 library(tidyverse)
 ```
+
+::: notes
+-   Got to the script and describe how to run code in R
+
+-   Note the functions that will be masked by dplyr
+:::
 
 ## Review: reading and viewing data {.incremental}
 
@@ -91,7 +112,17 @@ head(predictions)
 ```
 
 ::: notes
-Note variable types and highlight that different transformations we will talk about today can be applied to variables of different types
+-   Go to the script and run the lines to load in the data
+
+-   Describe how to view the data from the environment pane
+
+-   Go to the documentation for the dataset and describe a little about what the data represents
+
+-   Note that we are reading in two related datasets - briefly look at groundhogs and note that we'll be putting this dataset aside for now to work with later
+
+-   Look more closely at predictions - one row per prediction, id represents the groundhog that made the prediction
+
+-   Note the data types of each variable and highlight that transformations we will talk about today may operate differently on variables of different types
 :::
 
 ## Our task today
@@ -101,6 +132,14 @@ Note variable types and highlight that different transformations we will talk ab
 -   Our main question is whether different groundhogs are more or less likely to predict an early spring.
 
 -   Over the course of this workshop, we'll be creating summary tables that will set us up for further visualization and analysis.
+
+::: notes
+-   Is there any pattern to groundhog predictions or are they truly random?
+
+-   We're not going to do any advanced statistical analysis today, but reshaping data is an important and necessary first step in your analysis.
+
+-   Different types of analysis may require data to be shaped different.
+:::
 
 ## The dplyr package
 
@@ -122,6 +161,10 @@ Note variable types and highlight that different transformations we will talk ab
 
 ![](images/hex-dplyr.png){fig-align="right" width="172"}
 
+::: notes
+-   dplyr is the package from the tidyverse that is best suited for data manipulation and joining.
+:::
+
 ## dplyr grammar
 
 ::: incremental
@@ -140,6 +183,14 @@ Note variable types and highlight that different transformations we will talk ab
 -   dplyr also contains a number of useful *helper functions* that operate on single values or arrays. We'll introduce those along the way.
 :::
 
+::: notes
+-   The way all of the tidyverse packages are structured is that they are very standardized in terms of how the functions work with data
+
+-   This makes it easier to infer how functions will work even if you've never used them before
+
+-   That doesn't mean there is a learning curve, but once you understand the structure behind the functions, you'll start to see them as different tools that can build the dataset you need for your research
+:::
+
 ## anatomy of a dplyr verb
 
 In every dplyr verb:
@@ -150,6 +201,12 @@ In every dplyr verb:
 -   the output is always a new dataframe
 
 -   arguments with a . in front of them are settings for the function, not column names
+:::
+
+::: notes
+-   All of the dplyr verbs have a few things in common
+
+-   This makes them easy to use together because the output of each can be seen as the input to another
 :::
 
 ## the pipe 💉
@@ -166,6 +223,28 @@ In every dplyr verb:
 -   ⚠️ The pipe does not save new variables automatically
 :::
 
+::: notes
+-   The pipe helps us build up our ideal dataframe one step at a time.
+
+-   It saves us from having to create new variables every time we do anything to our data
+
+-   Some of you maybe be familiar with the old pipe, %\>%, which came from a library called magrittr. The pipe is now integrated into base R so there's nothing extra you need to install to use it
+:::
+
+## row verbs
+
+-   `filter()` : keep rows based on the value of one or more columns
+
+-   `arrange()`: changes the row order based on one or more columns
+
+-   `distinct()`: finds all the unique rows based on the values of one or more columns
+
+::: notes
+-   Row verbs operate across multiple rows
+
+-   They can change the order or number of rows in the dataset
+:::
+
 ## row verbs: `filter()`
 
 -   `filter()` : keep rows based on the value of one or more columns
@@ -173,6 +252,16 @@ In every dplyr verb:
 -   You can compose conditions using `==`, `>`, `<`, `>=`, `<=`, `!=`, and include multiple conditions using `&` or `|`
 
 -   The `%in%` operator can serve as a combination of `|` and `==`
+
+::: notes
+-   Filter can take us from more rows to less rows
+
+-   Open up the class script and invite students to follow along as you work through the first two examples
+
+-   Show alternative ways of representing conditions and demonstrate how you would use the pipe
+
+-   Show how filter can work across multiple columns
+:::
 
 ## row verbs: `filter()`
 
@@ -183,11 +272,22 @@ filter(predictions, year == 2020)
 # find groundhog predictions from 2020 and 2021
 filter(predictions, year == 2020 | year == 2021)
 filter(predictions, year %in% c(2020, 2021))
+
+# find groundhog predictions from 2020 where a shadow was seen
+filter(predictions, year == 2020 & shadow == TRUE)
 ```
 
 ## `filter()`: your turn!
 
 Find groundhog predictions between 1900 and 2000. Bonus: Use the pipe in your answer!
+
+::: notes
+-   Give students a minute to work through it themselves, direct them to write their answer under the next comment in the script
+
+-   After a minute or two invite students to paste their answer into the chat
+
+-   Move to the next slide and discuss the solution, open the script if you need to
+:::
 
 ## `filter()`: your turn!
 
@@ -205,6 +305,12 @@ predictions |>
 
 -   `is.na()` tests whether the variable is NA. Use is conjunction with `!` to filter for non-NA values.
 
+::: notes
+-   Sometimes you want to filter a dataframe based on more complex conditions
+
+-   These helper functions represent things you can do with logical or mathematical operations, but they are cleaner and more intelligible.
+:::
+
 ## row verbs: `arrange()`
 
 `arrange()`: changes the row order based on one or more columns
@@ -221,11 +327,19 @@ arrange(predictions, year)
 
 ::: {.column width="50%"}
 ```{r}
-# sort our predictions by year
+# sort our predictions by year, descending
 arrange(predictions, desc(year))
 ```
 :::
 :::::
+
+::: notes
+-   Sometimes it's helpful to sort your dataframe so you can view trends at a glance
+
+-   Arrange allows you to sort your data by one or more columns, descending or ascending
+
+-   When you specify multiple columns, each subsequent column acts as a tiebreak
+:::
 
 ## row verbs: `distinct()`
 
@@ -235,10 +349,23 @@ arrange(predictions, desc(year))
 
 -   You can optionally supply one or more columns to check for distinct combinations of
 
+-   If you want to retain all of the columns, set the `.keep_all` argument to `TRUE`
+
 ```{r}
+# list the unique years in the predictions dataset
 predictions |>
   distinct(year)
 ```
+
+::: notes
+-   You'll notice that when you specify a column, by default only that column is retained
+
+-   You can keep all columns with the .keep_all argument
+
+-   Note that distinct only retains the first occurence of the variable(s) you specify. If you are only keeping those variables, that doesn't matter so much, but if you keep all variables, note that you may want to be intentional about how you sort your dataframe if you want a certain unique row retained
+
+-   For instance, if we had a variable for time of prediction and you wanted to keep the first prediction from each year, you would sort the data by year, time, and then use distinct()
+:::
 
 ## 🚩checkpoint: row verbs
 
@@ -253,9 +380,23 @@ Let's put it all together!
 -   Assign the result to predictions, overwriting the previous dataframe
 
 ::: notes
--   look at the predictions table in R and note that there are rows that represent years with no recorded prediction
+-   Open up the script and look at the predictions table in R
 
--   We want to remove these from our analysis
+-   We'll mainly be working with our predictions table to answer our question of whether there is any pattern to groundhog predictions
+
+-   There are a few things we want to change and verify in the data before we start calculating new variabales
+
+-   The way I like to approach data reshaping is to envision the table I want to end up with and work backwards from there. For our question, it would be nice to have table with one row per year that gives the percentage of groundhogs that saw their shadow that year.
+
+-   Once you have more experience using dplyr, you'll start to be able to identify things that will throw off your desired groupings and calculations.
+
+-   One thing that jumps out to me about the predictions table is that there are rows that represent years with no recorded prediction - we want to filter these out because they will mess up our counts of predictions each year
+
+-   We also want to make sure there is only one record per groundhog per year
+
+-   Finally, we want to sort the dataframe in descending order simply because the later years are more interesting because there are more groundhogs on the scene.
+
+-   Write the code in the script
 :::
 
 ## 🚩checkpoint: row verbs
@@ -269,9 +410,20 @@ predictions <- predictions |>
 ```
 
 ::: notes
--   look at the predictions table in R and note that there are rows that represent years with no recorded prediction
+:::
 
--   We want to remove these from our analysis
+## group verbs
+
+-   `group_by()` groups your dataframe
+
+-   `summarize()` reduces the dataframe to a summary table with one row for each group and one or more calculations by group
+
+::: notes
+-   the grouping verbs create and operate across groups
+
+-   In my opinion, this is the bread and butter of dplyr
+
+-   These are the functions that allow you to change the unit of analysis of your data by collapsing it into different groups, and you can do some really powerful calculations inside of summarize
 :::
 
 ## group verbs: `group_by()`
@@ -287,18 +439,34 @@ predictions |>
 ```
 
 ::: notes
--   Show that the output now lists a group and tells us how many unique values are in that group
+-   Run this code in the script and show that the output now lists a group and tells us how many unique values are in that group
+
+-   Grouped data can be fed into summarize()
 :::
 
-## `n()` within `summarize()`
+## group verbs: `summarize()`
 
 -   `summarize()` reduces the dataframe to a summary table with one row for each group and one or more calculations by group
 
--   One of the most important summaries is `n()`, which counts the observations in each group.
+-   The syntax is `dataframe |> group_by(column) |> summarize(new_variable = summary_function(..))`
+
+-   One of the most important summaries is `n()`, which counts the observations (rows) in each group.
 
 -   Let's try it together: How many predictions were made in each year?
 
-## `n()`within `summarize()`
+::: notes
+-   summarize is used after group_by to calculate data across the groups you've specified
+
+-   summarize can be used to answer questions like "what is the average flight cost in each month"
+
+-   You can use any helper function in any library to summarize data inside of summarize, which is what makes it so powerful
+
+-   Open the script and work through the example
+
+-   Point out that because each row in our dataframe represents a prediction (look at the documentation to confirm this), the question is equivalent to "how many rows of data are there for each year" so we can use n()
+:::
+
+## `n()`within `summarize()` 
 
 ```{r}
 # How many predictions were made in each year?
@@ -307,12 +475,6 @@ predictions |>
   summarize(n_predictions = n()) |>
   arrange(desc(year))
 ```
-
-::: notes
--   summarize can be used to answer questions like "what is the average flight cost in each month"
-
--   You can use basically any function you can think of to summarize your dataset, i.e. mean()
-:::
 
 ## `summarize()` helper functions
 
@@ -327,6 +489,12 @@ predictions |>
     -   How many different groundhogs made predictions each year?
 
     -   What is the first year each groundhog made a prediction?
+
+::: notes
+-   Open the script and work through the examples
+
+-   For each question, ask attendees which variable they would group by and what summary function they would use within summarize
+:::
 
 ## `summarize()` helper functions
 
@@ -353,6 +521,20 @@ predictions |>
 
 -   Exercise: Let's return to our dataframe with the number of predictions in each year. How would we add a column for the number of shadows seen in each year?
 
+::: notes
+-   sum is a deceiving flexible helper function
+
+-   For numeric values, it simply sums them up - so for example, if we had a column for the number of people watching each prediction, we could use sum with group by and summarize to get the sum of people watching all predictions in each year
+
+-   A really powerful way to use sum is to specify conditions within it to calculate the number of records within a group that meet a certain condition
+
+-   If you use a condition within sum rather than a column name, it behaves as a counter rather than a summer
+
+-   open the script and copy and paste the previous summarized data
+
+-   Work through the example with attendees
+:::
+
 ## `sum()` within `summarize()`
 
 ```{r}
@@ -376,6 +558,10 @@ Your turn! Create a dataframe with three variables:
 -   the number of times each groundhog has seen it's shadow.
 :::
 
+::: notes
+For this one, direct attendees to take 5 minutes to try it by themselves, then come back and go over any questions
+:::
+
 ## 🚩checkpoint: group verbs
 
 ```{r}
@@ -389,9 +575,25 @@ predictions |>
             n_shadows = sum(shadow == TRUE))
 ```
 
+::: notes
+Porbably break at this point if it's near 45 minutes in!
+:::
+
 ## column verbs
 
 Now that we've calculated some summary variables within the groups that interest us (groundhog and year), we might want to use those summary variables to calculate more new variables.
+
+-   `mutate()` adds new columns calculated from existing columns
+
+-   `select()` keeps a subset of columns
+
+-   `rename()` renames columns
+
+::: notes
+-   Column verbs operate across multiple columns
+
+-   They can add, remove, or change the order of columns
+:::
 
 ## column verbs: `mutate()`
 
@@ -405,6 +607,14 @@ predictions |>
   mutate(details_length = nchar(details), .after = id)
 ```
 
+::: notes
+-   You use helper functions inside of mutate just like summarize
+
+-   The different between summarize and mutate is that summarize works across groups while mutate works across columns
+
+-   In this example we're calculating the number of characters in the details field of each row. You'll see that we didn't need to group the data first, and that each row has a different value
+:::
+
 ## re-coding data with `mutate()`
 
 `if_else()` tests for a condition and returns one value if true and another if false.
@@ -415,6 +625,14 @@ predictions |>
   mutate(phil = if_else(id == 1, 'TRUE', 'FALSE'))
 ```
 
+::: notes
+-   Inside of mutate, you can use conditional helper functions to create a new column based on conditions you set on other columns
+
+-   In this example, we create a column called Phil that looks at the id column to determine whether the prediction was made by Punxatawney Phil.
+
+-   The if_else function lets us specify two inverse conditions, so that value of the column can be one of two things based on whether the condition is true or false
+:::
+
 ## re-coding data with `mutate()`
 
 `case_when()` tests for multiple conditions and maps them to values accordingly.
@@ -422,10 +640,19 @@ predictions |>
 ```{r}
 # create a column that indicates the century of the predictions
 predictions |> 
-  mutate(century = case_when(year < 1900 ~ 19,
-                             year < 2000 & year >= 1900 ~ 20,
-                             year >= 2000 ~ 21))
+  mutate(century = case_when(year < 1900 ~ '19',
+                             year < 2000 & year >= 1900 ~ '20',
+                             year >= 2000 ~ '21',
+                             TRUE ~ 'Year out of range'))
 ```
+
+::: notes
+-   If we want more than one condition, we can use the case_when function inside of mutate to specify what the value of a new column should be
+
+-   case_when evaluates the conditions in order, so if more than one condition is met, it will set the value as the one outlined by the latest condition
+
+-   By default, if none of the conditions are met, the value is set to NA, but you can use the TRUE condition to specify a value to set if no condition is met
+:::
 
 ## column verbs: `select()` and `rename()`
 
@@ -436,6 +663,14 @@ predictions |>
     -   You can rename variables as you select them with `=` , with the new name on the left and old on the right
 
 -   `rename()` works the same way as renaming in select with `=`
+
+::: notes
+-   select and rename are pretty straightforward
+
+-   select allows you to subset columns but it also allows you to reorder them (just select them in the order you want them) or rename them inside of select
+
+-   Rename is purely for renaming columns
+:::
 
 ## 🚩checkpoint: put it all together!
 
@@ -451,6 +686,12 @@ Working off of our table with the number of predictions and number of shadows se
 
 -   Assign the result to a variable `groundhog_predictions`
 
+::: notes
+-   Open up the script and copy and paste what we will be working on
+
+-   Prompt attendees to add the things outlined on this slide - give them 2-3 minutes
+:::
+
 ## 🚩checkpoint: put it all together!
 
 ```{r}
@@ -464,6 +705,10 @@ groundhog_predictions <- predictions |>
   rename(groundhog_id = id)
 ```
 
+::: notes
+-   Show answer and take questions or clarifications. Show how it works via live code if needed.
+:::
+
 ## table verbs: joining data
 
 We've done a lot with the mere 4 variables in our predictions table!
@@ -475,6 +720,8 @@ head(groundhogs)
 ```
 
 ::: notes
+-   Open the script and look at the groundhogs table
+
 -   Point out the type variable
 
 -   Let's find out how often groundhogs of different types see their shadow!
@@ -488,7 +735,13 @@ There are two main types of join:
 
 -   **filtering joins** subset one dataframe based on matching characteristics with another dataframe
 
-## join terminology
+::: notes
+-   mutating joins are what we think of when we think of joins; they add additional data to a dataset
+
+-   filtering joins aren't joins in the traditional sense because they don't add data, they are just advanced ways of filtering dataframes based on another dataframe
+:::
+
+## join terminology 🗝️
 
 -   Every join involves a **primary key** and a **foreign key**
 
@@ -500,6 +753,20 @@ There are two main types of join:
 
 -   Always check that your primary & foreign keys are truly unique to each row!
 
+::: notes
+-   Every join involves a primary key and a foreign key
+
+-   A primary key is a variable or set of variables that uniquely identifies an observation. They should uniquely identify each row and there also shouldn't be any missing values in your primary key
+
+-   Foreign keys are what matches your primary key in another table
+
+-   The first step when joining data is to identify the primary and foreign keys you'll work with
+
+-   While your primary keys absolutely have to be unique, your foreign keys don't necessarily have to be, but it's best practice for everything to be one to one
+
+-   When possible, you want unique primary and foreign keys
+:::
+
 ## joining predictions & groundhogs
 
 ```{r}
@@ -509,6 +776,16 @@ head(groundhog_predictions, 3)
 ```{r}
 head(groundhogs, 3)
 ```
+
+::: notes
+-   We want to determine if there is a difference between the average shadow prediction rate of different types of groundhogs
+
+-   Ask attendees what will our primary table be?
+
+-   We want to add the variables from groundhogs to our groundhog predictions table
+
+-   Ask what attendees think the primary and foreign key will be
+:::
 
 ## joining predictions & groundhogs
 
@@ -527,6 +804,18 @@ head(groundhogs, 3)
 -   A **left join** retains all rows in the left dataframe, and adds additional data in from the right dataframe if the keys match.
 
 -   `left_join(x, y, join_by(x.key == y.key))`
+
+::: notes
+-   We want to add the variables from `groundhogs` to our `groundhog_predictions` table
+
+-   We'll need a **mutating join because we want to add data**, specifically a **left join**.
+
+-   A **left join** retains all rows in the left dataframe, and adds additional data in from the right dataframe if the keys match.
+
+-   ask attendees what dataframe will be on the left and which on the right
+
+-   Open the script and write the code
+:::
 
 ## joining predictions & groundhogs
 
@@ -616,7 +905,7 @@ filtering joins subset one dataframe based on matching characteristics with anot
 
 -   `bind_cols()` pastes columns onto the right of a dataframe.
 
--   There is no matching logic in these functions, you can think of them as copy-and-paste.
+-   There are no conditions in these functions, you can think of them as copy-and-paste.
 
 ## 🏁 finish line
 
@@ -638,9 +927,15 @@ predictions |>
 
 ## 🏆 bonus exercises
 
--   write code to calculate the column `predictions_count` in `groundhogs`
+-   Write code to calculate the column `predictions_count` in `groundhogs`
 
 -   Write code to calculate the column `is_groundhog` in `groundhogs`
+
+-   Calculate the proportion of groundhogs from each country that make predictions each year
+
+-   Add a column to groundhogs indicating the first year each groundhog saw its shadow
+
+-   Create a summary table showing the first year each type of groundhog made a prediction
 
 ## summary: verbs & helper functions
 
@@ -652,7 +947,7 @@ predictions |>
 
 -   `group_by()` , `summarize()`
 
--   `mutate()`
+-   `mutate()` , `select()`, `rename()`
 
 -   `left_`, `right_`, `inner_`, `full_`, `semi_`, `anti_` joins
 
@@ -677,6 +972,10 @@ predictions |>
 -   R for Data Science 2e, Chapters [3](https://r4ds.hadley.nz/data-transform) & [19](https://r4ds.hadley.nz/joins)
 
 -   [dplyr documentation](https://dplyr.tidyverse.org/index.html)
+
+-   [Software Carpentries: Data Frame Manipulation with dplyr](https://swcarpentry.github.io/r-novice-gapminder/13-dplyr.html)
+
+-   Github repository for this presentation: https://github.com/jhu-data-services/reshaping-joining-R-dplyr
 
 ## thank you! 🙏
 

@@ -28,11 +28,11 @@
     "text": "About this site\n\n1 + 1\n\n[1] 2"
   },
   {
-    "objectID": "Manipulating and Joining Data in R with dplyr.html#this-webinar-will-be-recorded",
-    "href": "Manipulating and Joining Data in R with dplyr.html#this-webinar-will-be-recorded",
+    "objectID": "Manipulating and Joining Data in R with dplyr.html#logistics",
+    "href": "Manipulating and Joining Data in R with dplyr.html#logistics",
     "title": "Manipulating and Joining Data in R with dplyr",
-    "section": "This webinar will be recorded! 🎥",
-    "text": "This webinar will be recorded! 🎥\nYour continued participation indicates your consent to be recorded. This recording may be shared with the JHU community.\nAny questions you ask verbally or in chat will be edited to protect your identity."
+    "section": "Logistics",
+    "text": "Logistics\nYour continued participation indicates your consent to be recorded. This recording may be shared with the JHU community.\nAny questions you ask verbally or in chat will be edited to protect your identity.\n\nIf you have questions throughout the webinar, please put them in the chat for our TA to answer (or message the TA directly)\n\n\nWe have a lot to cover today and I may not be able to answer all questions\nOur TA will assist you\nIf you have a general question, I encourage you to message the full chat because someone else might have the same question and will benefit from the answer\nPRESS RECORD"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#jhu-data-services",
@@ -46,91 +46,91 @@
     "href": "Manipulating and Joining Data in R with dplyr.html#what-you-will-learn-today",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "What you will learn today",
-    "text": "What you will learn today\n\nHow to reshape data using the powerful dplyr package\nHow to use the pipe |&gt; to simplify code\nHow to join two datasets together using different approaches and conditions\nAdditional resources for manipulating and joining data using dplyr"
+    "text": "What you will learn today\n\nHow to reshape data using the powerful dplyr package\n\nCalculate new variables to analyze\nSummarize data differently to suit your unit of analysis\nSort data to make it easier to visualize\n\nHow to use the pipe |&gt; to simplify code\nHow to join two datasets together using different approaches and conditions\nAdditional resources for manipulating and joining data using dplyr"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#you-should-have",
     "href": "Manipulating and Joining Data in R with dplyr.html#you-should-have",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "You should have:",
-    "text": "You should have:\n\nA template R script that we will fill out today called class_script_blank.R\ndplyr cheatsheet\nBasic knowledge of R\n\nInstalling and loading packages\nBasic terminology of R or programming in general"
-  },
-  {
-    "objectID": "Manipulating and Joining Data in R with dplyr.html#why-reshape-data",
-    "href": "Manipulating and Joining Data in R with dplyr.html#why-reshape-data",
-    "title": "Manipulating and Joining Data in R with dplyr",
-    "section": "Why reshape data?",
-    "text": "Why reshape data?\n\n\nCalculate new variables to analyze\nSummarize data differently to suit your unit of analysis\nRearrange or sort data to make it easier to visualize"
+    "text": "You should have:\n\nA template R script that we will fill out today called class_script_blank.R\ndplyr cheatsheet\nBasic knowledge of R\n\nInstalling and loading packages\nBasic terminology of R or programming in general\n\n\n\n\nGo to RStudio and open up the file class_script_blank.R\nMake sure everyone can open the file"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#libraries",
     "href": "Manipulating and Joining Data in R with dplyr.html#libraries",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "Libraries",
-    "text": "Libraries\nToday we’ll be using the tidyverse library, which includes dplyr.\n\nlibrary(tidyverse)\n\nWarning: package 'tidyverse' was built under R version 4.3.2\n\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.2     ✔ readr     2.1.4\n✔ forcats   1.0.0     ✔ stringr   1.5.0\n✔ ggplot2   3.4.2     ✔ tibble    3.2.1\n✔ lubridate 1.9.2     ✔ tidyr     1.3.0\n✔ purrr     1.0.1     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors"
+    "text": "Libraries\nToday we’ll be using the tidyverse library, which includes dplyr.\n\nlibrary(tidyverse)\n\nWarning: package 'tidyverse' was built under R version 4.3.2\n\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.2     ✔ readr     2.1.4\n✔ forcats   1.0.0     ✔ stringr   1.5.0\n✔ ggplot2   3.4.2     ✔ tibble    3.2.1\n✔ lubridate 1.9.2     ✔ tidyr     1.3.0\n✔ purrr     1.0.1     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n\n\n\nGot to the script and describe how to run code in R\nNote the functions that will be masked by dplyr"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#review-reading-and-viewing-data",
     "href": "Manipulating and Joining Data in R with dplyr.html#review-reading-and-viewing-data",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "Review: reading and viewing data",
-    "text": "Review: reading and viewing data\n\n# we'll be looking at data on Groundhog predictions\ngroundhogs &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-01-30/groundhogs.csv')\npredictions &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-01-30/predictions.csv')\n\nYou can view a dataframe in R using View() or by clicking the object in the environment pane.\nLet’s take a look at our groundhog predictions dataset:\n\nhead(predictions)\n\n\n  \n\n\n\n\nNote variable types and highlight that different transformations we will talk about today can be applied to variables of different types"
+    "text": "Review: reading and viewing data\n\n# we'll be looking at data on Groundhog predictions\ngroundhogs &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-01-30/groundhogs.csv')\npredictions &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-01-30/predictions.csv')\n\nYou can view a dataframe in R using View() or by clicking the object in the environment pane.\nLet’s take a look at our groundhog predictions dataset:\n\nhead(predictions)\n\n\n  \n\n\n\n\n\nGo to the script and run the lines to load in the data\nDescribe how to view the data from the environment pane\nGo to the documentation for the dataset and describe a little about what the data represents\nNote that we are reading in two related datasets - briefly look at groundhogs and note that we’ll be putting this dataset aside for now to work with later\nLook more closely at predictions - one row per prediction, id represents the groundhog that made the prediction\nNote the data types of each variable and highlight that transformations we will talk about today may operate differently on variables of different types"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#our-task-today",
     "href": "Manipulating and Joining Data in R with dplyr.html#our-task-today",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "Our task today",
-    "text": "Our task today\n\nWe are groundhog mythbusters and our goal is to collect some summary statistics about the groundhog prediction phenomenon.\nOur main question is whether different groundhogs are more or less likely to predict an early spring.\nOver the course of this workshop, we’ll be creating summary tables that will set us up for further visualization and analysis."
+    "text": "Our task today\n\nWe are groundhog mythbusters and our goal is to collect some summary statistics about the groundhog prediction phenomenon.\nOur main question is whether different groundhogs are more or less likely to predict an early spring.\nOver the course of this workshop, we’ll be creating summary tables that will set us up for further visualization and analysis.\n\n\n\nIs there any pattern to groundhog predictions or are they truly random?\nWe’re not going to do any advanced statistical analysis today, but reshaping data is an important and necessary first step in your analysis.\nDifferent types of analysis may require data to be shaped different."
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#the-dplyr-package",
     "href": "Manipulating and Joining Data in R with dplyr.html#the-dplyr-package",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "The dplyr package",
-    "text": "The dplyr package\n\n\ndplyr is a “grammar” of data manipulation\ndplyr is a set of R functions that work together to help you solve the most common data manipulation challenges, like:\n\n\nFiltering out certain rows and sorting your data\nCalculating a new column based on existing columns\nGrouping and summarizing data\nJoining data from different sources"
+    "text": "The dplyr package\n\n\ndplyr is a “grammar” of data manipulation\ndplyr is a set of R functions that work together to help you solve the most common data manipulation challenges, like:\n\n\nFiltering out certain rows and sorting your data\nCalculating a new column based on existing columns\nGrouping and summarizing data\nJoining data from different sources\n\n\n\n\n\n\n\ndplyr is the package from the tidyverse that is best suited for data manipulation and joining."
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#dplyr-grammar",
     "href": "Manipulating and Joining Data in R with dplyr.html#dplyr-grammar",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "dplyr grammar",
-    "text": "dplyr grammar\n\n\ndplyr’s core is a set functions that can be divided into 4 groups based on what they operate across:\n\nrows\ncolumns\ngroups\ntables\n\nWe’ll call these the dplyr verbs\ndplyr also contains a number of useful helper functions that operate on single values or arrays. We’ll introduce those along the way."
+    "text": "dplyr grammar\n\n\ndplyr’s core is a set functions that can be divided into 4 groups based on what they operate across:\n\nrows\ncolumns\ngroups\ntables\n\nWe’ll call these the dplyr verbs\ndplyr also contains a number of useful helper functions that operate on single values or arrays. We’ll introduce those along the way.\n\n\n\n\nThe way all of the tidyverse packages are structured is that they are very standardized in terms of how the functions work with data\nThis makes it easier to infer how functions will work even if you’ve never used them before\nThat doesn’t mean there is a learning curve, but once you understand the structure behind the functions, you’ll start to see them as different tools that can build the dataset you need for your research"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#anatomy-of-a-dplyr-verb",
     "href": "Manipulating and Joining Data in R with dplyr.html#anatomy-of-a-dplyr-verb",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "anatomy of a dplyr verb",
-    "text": "anatomy of a dplyr verb\nIn every dplyr verb:\n\n\nthe first argument is always dataframe\nthe output is always a new dataframe\narguments with a . in front of them are settings for the function, not column names"
+    "text": "anatomy of a dplyr verb\nIn every dplyr verb:\n\n\nthe first argument is always dataframe\nthe output is always a new dataframe\narguments with a . in front of them are settings for the function, not column names\n\n\n\n\nAll of the dplyr verbs have a few things in common\nThis makes them easy to use together because the output of each can be seen as the input to another"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#the-pipe",
     "href": "Manipulating and Joining Data in R with dplyr.html#the-pipe",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "the pipe 💉",
-    "text": "the pipe 💉\n\n\nEach verb does one thing very well, so you’ll typically chain together multiple verbs. The pipe helps you do this by passing the result of every action onto the next action.\nThe pipe is represented in R as |&gt;. Everything to the left of the pipe is passed as the first argument to the thing immediately to the right of the pipe.\nx |&gt; f(y) is equivalent to f(x, y)\nx |&gt; f(y) |&gt; g(x) is equivalent tog(f(x,y), z)\n⚠️ The pipe does not save new variables automatically"
+    "text": "the pipe 💉\n\n\nEach verb does one thing very well, so you’ll typically chain together multiple verbs. The pipe helps you do this by passing the result of every action onto the next action.\nThe pipe is represented in R as |&gt;. Everything to the left of the pipe is passed as the first argument to the thing immediately to the right of the pipe.\nx |&gt; f(y) is equivalent to f(x, y)\nx |&gt; f(y) |&gt; g(x) is equivalent tog(f(x,y), z)\n⚠️ The pipe does not save new variables automatically\n\n\n\n\nThe pipe helps us build up our ideal dataframe one step at a time.\nIt saves us from having to create new variables every time we do anything to our data\nSome of you maybe be familiar with the old pipe, %&gt;%, which came from a library called magrittr. The pipe is now integrated into base R so there’s nothing extra you need to install to use it"
+  },
+  {
+    "objectID": "Manipulating and Joining Data in R with dplyr.html#row-verbs",
+    "href": "Manipulating and Joining Data in R with dplyr.html#row-verbs",
+    "title": "Manipulating and Joining Data in R with dplyr",
+    "section": "row verbs",
+    "text": "row verbs\n\nfilter() : keep rows based on the value of one or more columns\narrange(): changes the row order based on one or more columns\ndistinct(): finds all the unique rows based on the values of one or more columns\n\n\n\nRow verbs operate across multiple rows\nThey can change the order or number of rows in the dataset"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#row-verbs-filter",
     "href": "Manipulating and Joining Data in R with dplyr.html#row-verbs-filter",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "row verbs: filter()",
-    "text": "row verbs: filter()\n\nfilter() : keep rows based on the value of one or more columns\nYou can compose conditions using ==, &gt;, &lt;, &gt;=, &lt;=, !=, and include multiple conditions using & or |\nThe %in% operator can serve as a combination of | and =="
+    "text": "row verbs: filter()\n\nfilter() : keep rows based on the value of one or more columns\nYou can compose conditions using ==, &gt;, &lt;, &gt;=, &lt;=, !=, and include multiple conditions using & or |\nThe %in% operator can serve as a combination of | and ==\n\n\n\nFilter can take us from more rows to less rows\nOpen up the class script and invite students to follow along as you work through the first two examples\nShow alternative ways of representing conditions and demonstrate how you would use the pipe\nShow how filter can work across multiple columns"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#row-verbs-filter-1",
     "href": "Manipulating and Joining Data in R with dplyr.html#row-verbs-filter-1",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "row verbs: filter()",
-    "text": "row verbs: filter()\n\n# find groundhog predictions from 2020\nfilter(predictions, year == 2020)\n\n\n  \n\n\n# find groundhog predictions from 2020 and 2021\nfilter(predictions, year == 2020 | year == 2021)\n\n\n  \n\n\nfilter(predictions, year %in% c(2020, 2021))"
+    "text": "row verbs: filter()\n\n# find groundhog predictions from 2020\nfilter(predictions, year == 2020)\n\n\n  \n\n\n# find groundhog predictions from 2020 and 2021\nfilter(predictions, year == 2020 | year == 2021)\n\n\n  \n\n\nfilter(predictions, year %in% c(2020, 2021))\n\n\n  \n\n\n# find groundhog predictions from 2020 where a shadow was seen\nfilter(predictions, year == 2020 & shadow == TRUE)"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#filter-your-turn",
     "href": "Manipulating and Joining Data in R with dplyr.html#filter-your-turn",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "filter(): your turn!",
-    "text": "filter(): your turn!\nFind groundhog predictions between 1900 and 2000. Bonus: Use the pipe in your answer!"
+    "text": "filter(): your turn!\nFind groundhog predictions between 1900 and 2000. Bonus: Use the pipe in your answer!\n\n\nGive students a minute to work through it themselves, direct them to write their answer under the next comment in the script\nAfter a minute or two invite students to paste their answer into the chat\nMove to the next slide and discuss the solution, open the script if you need to"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#filter-your-turn-1",
@@ -144,63 +144,70 @@
     "href": "Manipulating and Joining Data in R with dplyr.html#filter-useful-helper-functions",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "filter(): useful helper functions",
-    "text": "filter(): useful helper functions\n\nbetween() tests if a variable falls between two values (inclusive)\nnear() tests if a variable is within a certain range of a given number (you can set the tolerance)\nis.na() tests whether the variable is NA. Use is conjunction with ! to filter for non-NA values."
+    "text": "filter(): useful helper functions\n\nbetween() tests if a variable falls between two values (inclusive)\nnear() tests if a variable is within a certain range of a given number (you can set the tolerance)\nis.na() tests whether the variable is NA. Use is conjunction with ! to filter for non-NA values.\n\n\n\nSometimes you want to filter a dataframe based on more complex conditions\nThese helper functions represent things you can do with logical or mathematical operations, but they are cleaner and more intelligible."
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#row-verbs-arrange",
     "href": "Manipulating and Joining Data in R with dplyr.html#row-verbs-arrange",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "row verbs: arrange()",
-    "text": "row verbs: arrange()\narrange(): changes the row order based on one or more columns\nYou can wrap the columns with desc() to sort in descending order\n\n\n\n# sort our predictions by year\narrange(predictions, year)\n\n\n  \n\n\n\n\n\n# sort our predictions by year\narrange(predictions, desc(year))"
+    "text": "row verbs: arrange()\narrange(): changes the row order based on one or more columns\nYou can wrap the columns with desc() to sort in descending order\n\n\n\n# sort our predictions by year\narrange(predictions, year)\n\n\n  \n\n\n\n\n\n# sort our predictions by year, descending\narrange(predictions, desc(year))\n\n\n  \n\n\n\n\n\n\nSometimes it’s helpful to sort your dataframe so you can view trends at a glance\nArrange allows you to sort your data by one or more columns, descending or ascending\nWhen you specify multiple columns, each subsequent column acts as a tiebreak"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#row-verbs-distinct",
     "href": "Manipulating and Joining Data in R with dplyr.html#row-verbs-distinct",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "row verbs: distinct()",
-    "text": "row verbs: distinct()\ndistinct(): finds all the unique rows based on the values of one or more columns\n\nWithout any additional inputs, distinct() finds and keeps the first occurence of all unique rows\nYou can optionally supply one or more columns to check for distinct combinations of\n\n\npredictions |&gt;\n  distinct(year)"
+    "text": "row verbs: distinct()\ndistinct(): finds all the unique rows based on the values of one or more columns\n\nWithout any additional inputs, distinct() finds and keeps the first occurence of all unique rows\nYou can optionally supply one or more columns to check for distinct combinations of\nIf you want to retain all of the columns, set the .keep_all argument to TRUE\n\n\n# list the unique years in the predictions dataset\npredictions |&gt;\n  distinct(year)\n\n\n  \n\n\n\n\n\nYou’ll notice that when you specify a column, by default only that column is retained\nYou can keep all columns with the .keep_all argument\nNote that distinct only retains the first occurence of the variable(s) you specify. If you are only keeping those variables, that doesn’t matter so much, but if you keep all variables, note that you may want to be intentional about how you sort your dataframe if you want a certain unique row retained\nFor instance, if we had a variable for time of prediction and you wanted to keep the first prediction from each year, you would sort the data by year, time, and then use distinct()"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#checkpoint-row-verbs",
     "href": "Manipulating and Joining Data in R with dplyr.html#checkpoint-row-verbs",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "🚩checkpoint: row verbs",
-    "text": "🚩checkpoint: row verbs\nLet’s put it all together!\n\nRemove rows with no prediction record\nRemove duplicate predictions\nSort the result by year, descending\nAssign the result to predictions, overwriting the previous dataframe\n\n\n\nlook at the predictions table in R and note that there are rows that represent years with no recorded prediction\nWe want to remove these from our analysis"
+    "text": "🚩checkpoint: row verbs\nLet’s put it all together!\n\nRemove rows with no prediction record\nRemove duplicate predictions\nSort the result by year, descending\nAssign the result to predictions, overwriting the previous dataframe\n\n\n\nOpen up the script and look at the predictions table in R\nWe’ll mainly be working with our predictions table to answer our question of whether there is any pattern to groundhog predictions\nThere are a few things we want to change and verify in the data before we start calculating new variabales\nThe way I like to approach data reshaping is to envision the table I want to end up with and work backwards from there. For our question, it would be nice to have table with one row per year that gives the percentage of groundhogs that saw their shadow that year.\nOnce you have more experience using dplyr, you’ll start to be able to identify things that will throw off your desired groupings and calculations.\nOne thing that jumps out to me about the predictions table is that there are rows that represent years with no recorded prediction - we want to filter these out because they will mess up our counts of predictions each year\nWe also want to make sure there is only one record per groundhog per year\nFinally, we want to sort the dataframe in descending order simply because the later years are more interesting because there are more groundhogs on the scene.\nWrite the code in the script"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#checkpoint-row-verbs-1",
     "href": "Manipulating and Joining Data in R with dplyr.html#checkpoint-row-verbs-1",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "🚩checkpoint: row verbs",
-    "text": "🚩checkpoint: row verbs\n\n# create a subset of your data where \"shadow\" has a value of either TRUE or FALSE. Make sure there are no duplicate rows, and sort the result by ascending year.\npredictions &lt;- predictions |&gt;\n  filter(shadow %in% c(TRUE, FALSE)) |&gt;\n  distinct(year, id, .keep_all = TRUE) |&gt;\n  arrange(desc(year))\n\n\n\nlook at the predictions table in R and note that there are rows that represent years with no recorded prediction\nWe want to remove these from our analysis"
+    "text": "🚩checkpoint: row verbs\n\n# create a subset of your data where \"shadow\" has a value of either TRUE or FALSE. Make sure there are no duplicate rows, and sort the result by ascending year.\npredictions &lt;- predictions |&gt;\n  filter(shadow %in% c(TRUE, FALSE)) |&gt;\n  distinct(year, id, .keep_all = TRUE) |&gt;\n  arrange(desc(year))"
+  },
+  {
+    "objectID": "Manipulating and Joining Data in R with dplyr.html#group-verbs",
+    "href": "Manipulating and Joining Data in R with dplyr.html#group-verbs",
+    "title": "Manipulating and Joining Data in R with dplyr",
+    "section": "group verbs",
+    "text": "group verbs\n\ngroup_by() groups your dataframe\nsummarize() reduces the dataframe to a summary table with one row for each group and one or more calculations by group\n\n\n\nthe grouping verbs create and operate across groups\nIn my opinion, this is the bread and butter of dplyr\nThese are the functions that allow you to change the unit of analysis of your data by collapsing it into different groups, and you can do some really powerful calculations inside of summarize"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#group-verbs-group_by",
     "href": "Manipulating and Joining Data in R with dplyr.html#group-verbs-group_by",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "group verbs: group_by()",
-    "text": "group verbs: group_by()\ngroup_by() groups your dataframe\nOn it’s own, it doesn’t change your data. But you can feed the “grouped” output into other special functions to apply different transformations to each group in your data.\n\n# group predictions by year \npredictions |&gt;\n  group_by(year)\n\n\n  \n\n\n\n\n\nShow that the output now lists a group and tells us how many unique values are in that group"
+    "text": "group verbs: group_by()\ngroup_by() groups your dataframe\nOn it’s own, it doesn’t change your data. But you can feed the “grouped” output into other special functions to apply different transformations to each group in your data.\n\n# group predictions by year \npredictions |&gt;\n  group_by(year)\n\n\n  \n\n\n\n\n\nRun this code in the script and show that the output now lists a group and tells us how many unique values are in that group\nGrouped data can be fed into summarize()"
   },
   {
-    "objectID": "Manipulating and Joining Data in R with dplyr.html#n-within-summarize",
-    "href": "Manipulating and Joining Data in R with dplyr.html#n-within-summarize",
+    "objectID": "Manipulating and Joining Data in R with dplyr.html#group-verbs-summarize",
+    "href": "Manipulating and Joining Data in R with dplyr.html#group-verbs-summarize",
     "title": "Manipulating and Joining Data in R with dplyr",
-    "section": "n() within summarize()",
-    "text": "n() within summarize()\n\nsummarize() reduces the dataframe to a summary table with one row for each group and one or more calculations by group\nOne of the most important summaries is n(), which counts the observations in each group.\nLet’s try it together: How many predictions were made in each year?"
+    "section": "group verbs: summarize()",
+    "text": "group verbs: summarize()\n\nsummarize() reduces the dataframe to a summary table with one row for each group and one or more calculations by group\nThe syntax is dataframe |&gt; group_by(column) |&gt; summarize(new_variable = summary_function(..))\nOne of the most important summaries is n(), which counts the observations (rows) in each group.\nLet’s try it together: How many predictions were made in each year?\n\n\n\nsummarize is used after group_by to calculate data across the groups you’ve specified\nsummarize can be used to answer questions like “what is the average flight cost in each month”\nYou can use any helper function in any library to summarize data inside of summarize, which is what makes it so powerful\nOpen the script and work through the example\nPoint out that because each row in our dataframe represents a prediction (look at the documentation to confirm this), the question is equivalent to “how many rows of data are there for each year” so we can use n()"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#nwithin-summarize",
     "href": "Manipulating and Joining Data in R with dplyr.html#nwithin-summarize",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "n()within summarize()",
-    "text": "n()within summarize()\n\n# How many predictions were made in each year?\npredictions |&gt;\n  group_by(year) |&gt;\n  summarize(n_predictions = n()) |&gt;\n  arrange(desc(year))\n\n\n  \n\n\n\n\n\nsummarize can be used to answer questions like “what is the average flight cost in each month”\nYou can use basically any function you can think of to summarize your dataset, i.e. mean()"
+    "text": "n()within summarize()\n\n# How many predictions were made in each year?\npredictions |&gt;\n  group_by(year) |&gt;\n  summarize(n_predictions = n()) |&gt;\n  arrange(desc(year))"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#summarize-helper-functions",
     "href": "Manipulating and Joining Data in R with dplyr.html#summarize-helper-functions",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "summarize() helper functions",
-    "text": "summarize() helper functions\n\nOther powerful summary functions include:\n\nn_distinct(): counts the number of distinct values of a given column within a group\nmax() and min(): finds the max and min value of a given column within a group\n\nExercises:\n\nHow many different groundhogs made predictions each year?\nWhat is the first year each groundhog made a prediction?"
+    "text": "summarize() helper functions\n\nOther powerful summary functions include:\n\nn_distinct(): counts the number of distinct values of a given column within a group\nmax() and min(): finds the max and min value of a given column within a group\n\nExercises:\n\nHow many different groundhogs made predictions each year?\nWhat is the first year each groundhog made a prediction?\n\n\n\n\nOpen the script and work through the examples\nFor each question, ask attendees which variable they would group by and what summary function they would use within summarize"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#summarize-helper-functions-1",
@@ -221,7 +228,7 @@
     "href": "Manipulating and Joining Data in R with dplyr.html#sum-within-summarize",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "sum() within summarize()",
-    "text": "sum() within summarize()\n\nsum(): finds the sum of a given column within a group. You can also specify conditions within sum() to calculate the number of records within a group that meet a certain condition.\nExercise: Let’s return to our dataframe with the number of predictions in each year. How would we add a column for the number of shadows seen in each year?"
+    "text": "sum() within summarize()\n\nsum(): finds the sum of a given column within a group. You can also specify conditions within sum() to calculate the number of records within a group that meet a certain condition.\nExercise: Let’s return to our dataframe with the number of predictions in each year. How would we add a column for the number of shadows seen in each year?\n\n\n\nsum is a deceiving flexible helper function\nFor numeric values, it simply sums them up - so for example, if we had a column for the number of people watching each prediction, we could use sum with group by and summarize to get the sum of people watching all predictions in each year\nA really powerful way to use sum is to specify conditions within it to calculate the number of records within a group that meet a certain condition\nIf you use a condition within sum rather than a column name, it behaves as a counter rather than a summer\nopen the script and copy and paste the previous summarized data\nWork through the example with attendees"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#sum-within-summarize-1",
@@ -235,91 +242,91 @@
     "href": "Manipulating and Joining Data in R with dplyr.html#checkpoint-group-verbs",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "🚩checkpoint: group verbs",
-    "text": "🚩checkpoint: group verbs\nYour turn! Create a dataframe with three variables:\n\n\ngroundhog id\nthe number of total predictions each groundhog has made\nthe number of times each groundhog has seen it’s shadow."
+    "text": "🚩checkpoint: group verbs\nYour turn! Create a dataframe with three variables:\n\n\ngroundhog id\nthe number of total predictions each groundhog has made\nthe number of times each groundhog has seen it’s shadow.\n\n\n\nFor this one, direct attendees to take 5 minutes to try it by themselves, then come back and go over any questions"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#checkpoint-group-verbs-1",
     "href": "Manipulating and Joining Data in R with dplyr.html#checkpoint-group-verbs-1",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "🚩checkpoint: group verbs",
-    "text": "🚩checkpoint: group verbs\n\n# Create a dataframe with 3 variables: \n# groundhog id\n# the number of total predictions each groundhog has made\n# the number of times each groundhog has seen its shadow\npredictions |&gt;\n  group_by(id) |&gt;\n  summarize(n_predictions = n(),\n            n_shadows = sum(shadow == TRUE))"
+    "text": "🚩checkpoint: group verbs\n\n# Create a dataframe with 3 variables: \n# groundhog id\n# the number of total predictions each groundhog has made\n# the number of times each groundhog has seen its shadow\npredictions |&gt;\n  group_by(id) |&gt;\n  summarize(n_predictions = n(),\n            n_shadows = sum(shadow == TRUE))\n\n\n  \n\n\n\n\nPorbably break at this point if it’s near 45 minutes in!"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#column-verbs",
     "href": "Manipulating and Joining Data in R with dplyr.html#column-verbs",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "column verbs",
-    "text": "column verbs\nNow that we’ve calculated some summary variables within the groups that interest us (groundhog and year), we might want to use those summary variables to calculate more new variables."
+    "text": "column verbs\nNow that we’ve calculated some summary variables within the groups that interest us (groundhog and year), we might want to use those summary variables to calculate more new variables.\n\nmutate() adds new columns calculated from existing columns\nselect() keeps a subset of columns\nrename() renames columns\n\n\n\nColumn verbs operate across multiple columns\nThey can add, remove, or change the order of columns"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#column-verbs-mutate",
     "href": "Manipulating and Joining Data in R with dplyr.html#column-verbs-mutate",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "column verbs: mutate()",
-    "text": "column verbs: mutate()\nmutate() adds new columns calculated from existing columns\n\nBy default, columns are added on the left side of the dataframe. You can use the .before or .after to specify where the new variable should fall\n\n\n# calculate how many characters are in the details field and put the variable after id\npredictions |&gt;\n  mutate(details_length = nchar(details), .after = id)"
+    "text": "column verbs: mutate()\nmutate() adds new columns calculated from existing columns\n\nBy default, columns are added on the left side of the dataframe. You can use the .before or .after to specify where the new variable should fall\n\n\n# calculate how many characters are in the details field and put the variable after id\npredictions |&gt;\n  mutate(details_length = nchar(details), .after = id)\n\n\n  \n\n\n\n\n\nYou use helper functions inside of mutate just like summarize\nThe different between summarize and mutate is that summarize works across groups while mutate works across columns\nIn this example we’re calculating the number of characters in the details field of each row. You’ll see that we didn’t need to group the data first, and that each row has a different value"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#re-coding-data-with-mutate",
     "href": "Manipulating and Joining Data in R with dplyr.html#re-coding-data-with-mutate",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "re-coding data with mutate()",
-    "text": "re-coding data with mutate()\nif_else() tests for a condition and returns one value if true and another if false.\n\n# create a column that indicates whether the prediction was made by Punxatawney Phil\npredictions |&gt; \n  mutate(phil = if_else(id == 1, 'TRUE', 'FALSE'))"
+    "text": "re-coding data with mutate()\nif_else() tests for a condition and returns one value if true and another if false.\n\n# create a column that indicates whether the prediction was made by Punxatawney Phil\npredictions |&gt; \n  mutate(phil = if_else(id == 1, 'TRUE', 'FALSE'))\n\n\n  \n\n\n\n\n\nInside of mutate, you can use conditional helper functions to create a new column based on conditions you set on other columns\nIn this example, we create a column called Phil that looks at the id column to determine whether the prediction was made by Punxatawney Phil.\nThe if_else function lets us specify two inverse conditions, so that value of the column can be one of two things based on whether the condition is true or false"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#re-coding-data-with-mutate-1",
     "href": "Manipulating and Joining Data in R with dplyr.html#re-coding-data-with-mutate-1",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "re-coding data with mutate()",
-    "text": "re-coding data with mutate()\ncase_when() tests for multiple conditions and maps them to values accordingly.\n\n# create a column that indicates the century of the predictions\npredictions |&gt; \n  mutate(century = case_when(year &lt; 1900 ~ 19,\n                             year &lt; 2000 & year &gt;= 1900 ~ 20,\n                             year &gt;= 2000 ~ 21))"
+    "text": "re-coding data with mutate()\ncase_when() tests for multiple conditions and maps them to values accordingly.\n\n# create a column that indicates the century of the predictions\npredictions |&gt; \n  mutate(century = case_when(year &lt; 1900 ~ '19',\n                             year &lt; 2000 & year &gt;= 1900 ~ '20',\n                             year &gt;= 2000 ~ '21',\n                             TRUE ~ 'Year out of range'))\n\n\n  \n\n\n\n\n\nIf we want more than one condition, we can use the case_when function inside of mutate to specify what the value of a new column should be\ncase_when evaluates the conditions in order, so if more than one condition is met, it will set the value as the one outlined by the latest condition\nBy default, if none of the conditions are met, the value is set to NA, but you can use the TRUE condition to specify a value to set if no condition is met"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#column-verbs-select-and-rename",
     "href": "Manipulating and Joining Data in R with dplyr.html#column-verbs-select-and-rename",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "column verbs: select() and rename()",
-    "text": "column verbs: select() and rename()\n\nselect() keeps a subset of columns\n\nYou can select by name, series, test for data type (select(where(is.character()))) or use other helper functions such as starts_with(), ends_with(), or contains()\nYou can rename variables as you select them with = , with the new name on the left and old on the right\n\nrename() works the same way as renaming in select with ="
+    "text": "column verbs: select() and rename()\n\nselect() keeps a subset of columns\n\nYou can select by name, series, test for data type (select(where(is.character()))) or use other helper functions such as starts_with(), ends_with(), or contains()\nYou can rename variables as you select them with = , with the new name on the left and old on the right\n\nrename() works the same way as renaming in select with =\n\n\n\nselect and rename are pretty straightforward\nselect allows you to subset columns but it also allows you to reorder them (just select them in the order you want them) or rename them inside of select\nRename is purely for renaming columns"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#checkpoint-put-it-all-together",
     "href": "Manipulating and Joining Data in R with dplyr.html#checkpoint-put-it-all-together",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "🚩checkpoint: put it all together!",
-    "text": "🚩checkpoint: put it all together!\nLet’s return to our original research question: Are certain groundhogs more likely to see their shadow than others?\nWorking off of our table with the number of predictions and number of shadows seen per groundhog, lets:\n\nAdd a column called shadow_percent that gives the percentage of time each groundhog sees its shadow\nFilter for groundhogs with more than 5 predictions\nKeep only the variables id and shadow_percent, and rename id to groundhog_id\nAssign the result to a variable groundhog_predictions"
+    "text": "🚩checkpoint: put it all together!\nLet’s return to our original research question: Are certain groundhogs more likely to see their shadow than others?\nWorking off of our table with the number of predictions and number of shadows seen per groundhog, lets:\n\nAdd a column called shadow_percent that gives the percentage of time each groundhog sees its shadow\nFilter for groundhogs with more than 5 predictions\nKeep only the variables id and shadow_percent, and rename id to groundhog_id\nAssign the result to a variable groundhog_predictions\n\n\n\nOpen up the script and copy and paste what we will be working on\nPrompt attendees to add the things outlined on this slide - give them 2-3 minutes"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#checkpoint-put-it-all-together-1",
     "href": "Manipulating and Joining Data in R with dplyr.html#checkpoint-put-it-all-together-1",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "🚩checkpoint: put it all together!",
-    "text": "🚩checkpoint: put it all together!\n\ngroundhog_predictions &lt;- predictions |&gt;\n  group_by(id) |&gt;\n  summarize(n_predictions = n(),\n            n_shadows = sum(shadow == TRUE)) |&gt;\n  mutate(shadow_percent = n_shadows/n_predictions) |&gt;\n  filter(n_predictions &gt; 5) |&gt;\n  select(id, shadow_percent) |&gt;\n  rename(groundhog_id = id)"
+    "text": "🚩checkpoint: put it all together!\n\ngroundhog_predictions &lt;- predictions |&gt;\n  group_by(id) |&gt;\n  summarize(n_predictions = n(),\n            n_shadows = sum(shadow == TRUE)) |&gt;\n  mutate(shadow_percent = n_shadows/n_predictions) |&gt;\n  filter(n_predictions &gt; 5) |&gt;\n  select(id, shadow_percent) |&gt;\n  rename(groundhog_id = id)\n\n\n\nShow answer and take questions or clarifications. Show how it works via live code if needed."
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#table-verbs-joining-data",
     "href": "Manipulating and Joining Data in R with dplyr.html#table-verbs-joining-data",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "table verbs: joining data",
-    "text": "table verbs: joining data\nWe’ve done a lot with the mere 4 variables in our predictions table!\nWhat if we wanted to enhance our data with more information about each groundhog from the groundhogs table?\n\nhead(groundhogs)\n\n\n  \n\n\n\n\n\nPoint out the type variable\nLet’s find out how often groundhogs of different types see their shadow!"
+    "text": "table verbs: joining data\nWe’ve done a lot with the mere 4 variables in our predictions table!\nWhat if we wanted to enhance our data with more information about each groundhog from the groundhogs table?\n\nhead(groundhogs)\n\n\n  \n\n\n\n\n\nOpen the script and look at the groundhogs table\nPoint out the type variable\nLet’s find out how often groundhogs of different types see their shadow!"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#join-terminology",
     "href": "Manipulating and Joining Data in R with dplyr.html#join-terminology",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "join terminology",
-    "text": "join terminology\nThere are two main types of join:\n\nmutating joins add variables from one dataframe to another based on matching characteristics between the two\nfiltering joins subset one dataframe based on matching characteristics with another dataframe"
+    "text": "join terminology\nThere are two main types of join:\n\nmutating joins add variables from one dataframe to another based on matching characteristics between the two\nfiltering joins subset one dataframe based on matching characteristics with another dataframe\n\n\n\nmutating joins are what we think of when we think of joins; they add additional data to a dataset\nfiltering joins aren’t joins in the traditional sense because they don’t add data, they are just advanced ways of filtering dataframes based on another dataframe"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#join-terminology-1",
     "href": "Manipulating and Joining Data in R with dplyr.html#join-terminology-1",
     "title": "Manipulating and Joining Data in R with dplyr",
-    "section": "join terminology",
-    "text": "join terminology\n\nEvery join involves a primary key and a foreign key\n\nA primary key is a variable or set of variables that uniquely identifies an observation\nA foreign key is just another table’s primary key that matches your tables’ primary key. It might have a different name or be spread across more or less variables.\n\nThe first step when joining data is to identify the primary and foreign keys you’ll work with\nAlways check that your primary & foreign keys are truly unique to each row!"
+    "section": "join terminology 🗝️",
+    "text": "join terminology 🗝️\n\nEvery join involves a primary key and a foreign key\n\nA primary key is a variable or set of variables that uniquely identifies an observation\nA foreign key is just another table’s primary key that matches your tables’ primary key. It might have a different name or be spread across more or less variables.\n\nThe first step when joining data is to identify the primary and foreign keys you’ll work with\nAlways check that your primary & foreign keys are truly unique to each row!\n\n\n\nEvery join involves a primary key and a foreign key\nA primary key is a variable or set of variables that uniquely identifies an observation. They should uniquely identify each row and there also shouldn’t be any missing values in your primary key\nForeign keys are what matches your primary key in another table\nThe first step when joining data is to identify the primary and foreign keys you’ll work with\nWhile your primary keys absolutely have to be unique, your foreign keys don’t necessarily have to be, but it’s best practice for everything to be one to one\nWhen possible, you want unique primary and foreign keys"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#joining-predictions-groundhogs",
     "href": "Manipulating and Joining Data in R with dplyr.html#joining-predictions-groundhogs",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "joining predictions & groundhogs",
-    "text": "joining predictions & groundhogs\n\nhead(groundhog_predictions, 3)\n\n\n  \n\n\n\n\nhead(groundhogs, 3)"
+    "text": "joining predictions & groundhogs\n\nhead(groundhog_predictions, 3)\n\n\n  \n\n\n\n\nhead(groundhogs, 3)\n\n\n  \n\n\n\n\n\nWe want to determine if there is a difference between the average shadow prediction rate of different types of groundhogs\nAsk attendees what will our primary table be?\nWe want to add the variables from groundhogs to our groundhog predictions table\nAsk what attendees think the primary and foreign key will be"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#joining-predictions-groundhogs-1",
@@ -333,7 +340,7 @@
     "href": "Manipulating and Joining Data in R with dplyr.html#joining-predictions-groundhogs-2",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "joining predictions & groundhogs",
-    "text": "joining predictions & groundhogs\n\nWe want to add the variables from groundhogs to our groundhog_predictions table\nWe’ll need a mutating join, specifically a left join.\nA left join retains all rows in the left dataframe, and adds additional data in from the right dataframe if the keys match.\nleft_join(x, y, join_by(x.key == y.key))"
+    "text": "joining predictions & groundhogs\n\nWe want to add the variables from groundhogs to our groundhog_predictions table\nWe’ll need a mutating join, specifically a left join.\nA left join retains all rows in the left dataframe, and adds additional data in from the right dataframe if the keys match.\nleft_join(x, y, join_by(x.key == y.key))\n\n\n\nWe want to add the variables from groundhogs to our groundhog_predictions table\nWe’ll need a mutating join because we want to add data, specifically a left join.\nA left join retains all rows in the left dataframe, and adds additional data in from the right dataframe if the keys match.\nask attendees what dataframe will be on the left and which on the right\nOpen the script and write the code"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#joining-predictions-groundhogs-3",
@@ -382,7 +389,7 @@
     "href": "Manipulating and Joining Data in R with dplyr.html#other-table-verbs",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "other table verbs",
-    "text": "other table verbs\n\nbind_rows() pastes rows onto the bottom of a dataframe\nbind_cols() pastes columns onto the right of a dataframe.\nThere is no matching logic in these functions, you can think of them as copy-and-paste."
+    "text": "other table verbs\n\nbind_rows() pastes rows onto the bottom of a dataframe\nbind_cols() pastes columns onto the right of a dataframe.\nThere are no conditions in these functions, you can think of them as copy-and-paste."
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#finish-line",
@@ -403,21 +410,21 @@
     "href": "Manipulating and Joining Data in R with dplyr.html#bonus-exercises",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "🏆 bonus exercises",
-    "text": "🏆 bonus exercises\n\nwrite code to calculate the column predictions_count in groundhogs\nWrite code to calculate the column is_groundhog in groundhogs"
+    "text": "🏆 bonus exercises\n\nWrite code to calculate the column predictions_count in groundhogs\nWrite code to calculate the column is_groundhog in groundhogs\nCalculate the proportion of groundhogs from each country that make predictions each year\nAdd a column to groundhogs indicating the first year each groundhog saw its shadow\nCreate a summary table showing the first year each type of groundhog made a prediction"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#summary-verbs-helper-functions",
     "href": "Manipulating and Joining Data in R with dplyr.html#summary-verbs-helper-functions",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "summary: verbs & helper functions",
-    "text": "summary: verbs & helper functions\n\n\nVerbs:\n\nfilter() , arrange() , distinct()\ngroup_by() , summarize()\nmutate()\nleft_, right_, inner_, full_, semi_, anti_ joins\nbind _rows and _cols\n\n\nHelper functions:\n\ndesc()\nn(), n_distinct(), min(), max() , sum()\nif_else() and case_when()\nbetween() and within()"
+    "text": "summary: verbs & helper functions\n\n\nVerbs:\n\nfilter() , arrange() , distinct()\ngroup_by() , summarize()\nmutate() , select(), rename()\nleft_, right_, inner_, full_, semi_, anti_ joins\nbind _rows and _cols\n\n\nHelper functions:\n\ndesc()\nn(), n_distinct(), min(), max() , sum()\nif_else() and case_when()\nbetween() and within()"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#resources",
     "href": "Manipulating and Joining Data in R with dplyr.html#resources",
     "title": "Manipulating and Joining Data in R with dplyr",
     "section": "resources",
-    "text": "resources\n\nR for Data Science 2e, Chapters 3 & 19\ndplyr documentation"
+    "text": "resources\n\nR for Data Science 2e, Chapters 3 & 19\ndplyr documentation\nSoftware Carpentries: Data Frame Manipulation with dplyr\nGithub repository for this presentation: https://github.com/jhu-data-services/reshaping-joining-R-dplyr"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#thank-you",
