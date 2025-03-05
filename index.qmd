@@ -1,0 +1,15 @@
+---
+title: "Reshaping and Joining Data in R with dplyr"
+---
+
+-   **Survey:** Please be sure to take our [survey](https://bit.ly/dplyr-survey) and let us know your feedback about our March 11th, 2025 "Reshaping and Joining Data in R with dplyr" session.
+
+-   **Slides**: The slides are available here (or above using the `Presentation` link).
+
+-   **Recording**: This session was not recorded, but you can view a prior recording of this session here.
+
+## dplyr Resources
+
+-   R for Data Science 2e, Chapters [3](https://r4ds.hadley.nz/data-transform) & [19](https://r4ds.hadley.nz/joins)
+
+-   [dplyr documentation](https://dplyr.tidyverse.org/index.html)

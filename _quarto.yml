@@ -1,0 +1,21 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Reshaping and Joining Data in R with dplyr"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Resources
+      - href: "Manipulating and Joining Data in R with dplyr.qmd"
+        text: Presentation
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+editor: visual
+
