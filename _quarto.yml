@@ -11,13 +11,16 @@ website:
       - href: "Manipulating and Joining Data in R with dplyr.qmd"
         text: Presentation
       - href: workshop-script.qmd
-        text: Script
+        text: Code
 
 format:
   html:
     theme: cosmo
     css: styles.css
     toc: true
+    
+body-footer: |
+    The presentation materials are licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/), attributable to Data Services, Johns Hopkins University.
 
 editor: visual
 
