@@ -1,8 +1,8 @@
 ---
 title: "Manipulating and Joining Data in R with dplyr"
-author: Lubov McKone & Chen Chiu
+author: Lubov McKone
 institute: Johns Hopkins Libraries Data Services
-date: October 11, 2024
+date: March 11, 2025
 format:
   revealjs: 
     theme: serif
@@ -466,7 +466,7 @@ predictions |>
 -   Point out that because each row in our dataframe represents a prediction (look at the documentation to confirm this), the question is equivalent to "how many rows of data are there for each year" so we can use n()
 :::
 
-## `n()`within `summarize()` 
+## `n()`within `summarize()`
 
 ```{r}
 # How many predictions were made in each year?
@@ -975,7 +975,7 @@ predictions |>
 
 -   [Software Carpentries: Data Frame Manipulation with dplyr](https://swcarpentry.github.io/r-novice-gapminder/13-dplyr.html)
 
--   Github repository for this presentation: https://github.com/jhu-data-services/reshaping-joining-R-dplyr
+-   Website for the workshop: <https://jhu-data-services.github.io/dplyr-quarto-site/>
 
 ## thank you! 🙏
 
@@ -983,8 +983,8 @@ Please take the post-workshop survey: <https://bit.ly/dplyr-survey>
 
 **Future trainings:**
 
--   Interactive Data Visualization in R with Shiny: 10/16 1-4pm; 10/17 1-4pm
+-   Designing Effective Data Visualizations: 3/14 12-2pm
 
--   Creating Reproducible Documents with Quarto: 11/12 2-4pm
+-   Finding a Repository to Share Research Data: 3/26 12-1pm
 
--   Finding a Repository to Share Research Data: 12/3 12-1pm
+-   Preparing to Share Human Participant Data in a Repository: 4/24 12-1pm
