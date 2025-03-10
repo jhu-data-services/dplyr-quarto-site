@@ -8,13 +8,28 @@ format:
     theme: serif
     incremental: true
     embed-resources: true
+    chalkboard: true
 df-print: paged
 execute:
   echo: true
 editor: visual
 ---
 
-## Logistics
+## Welcome!
+
+Today's session will not be recorded.
+
+Please feel free to ask questions verbally or in the chat, and I will do my best to answer them as we move through the training today.
+
+We will take a break halfway through the training at 11am.
+
+:::: notes
+::: notes
+If you have a question, I encourage you to ask it because someone else might have the same question and will benefit from the answer
+:::
+::::
+
+## Logistics {visibility="hidden"}
 
 Your continued participation indicates your consent to be recorded. This recording may be shared with the JHU community.
 
@@ -64,6 +79,8 @@ PRESS RECORD
 
 -   dplyr cheatsheet
 
+-   A link to a website where you can find the slides and final code from this workshop.
+
 -   Basic knowledge of R
 
     -   Installing and loading packages
@@ -71,6 +88,10 @@ PRESS RECORD
     -   Basic terminology of R or programming in general
 
 ::: notes
+-   Put link in chat: <https://jhu-data-services.github.io/dplyr-quarto-site/>
+
+-   Mention that the point of the workshop is to learn by synthesizing information, but the code is there for you if you miss something or want to go back.
+
 -   Go to RStudio and open up the file class_script_blank.R
 
 -   Make sure everyone can open the file
@@ -116,7 +137,7 @@ head(predictions)
 
 -   Describe how to view the data from the environment pane
 
--   Go to the documentation for the dataset and describe a little about what the data represents
+-   Go to the documentation for the dataset and describe a little about what the data represents <https://github.com/rfordatascience/tidytuesday/blob/main/data/2024/2024-01-30/readme.md>
 
 -   Note that we are reading in two related datasets - briefly look at groundhogs and note that we'll be putting this dataset aside for now to work with later
 
@@ -388,6 +409,8 @@ Let's put it all together!
 
 -   The way I like to approach data reshaping is to envision the table I want to end up with and work backwards from there. For our question, it would be nice to have table with one row per year that gives the percentage of groundhogs that saw their shadow that year.
 
+-   In order to make this percentage, we need to have counts of the number of groundhogs that saw their shadow in a given year, and the total number that made predictions each year
+
 -   Once you have more experience using dplyr, you'll start to be able to identify things that will throw off your desired groupings and calculations.
 
 -   One thing that jumps out to me about the predictions table is that there are rows that represent years with no recorded prediction - we want to filter these out because they will mess up our counts of predictions each year
@@ -464,6 +487,8 @@ predictions |>
 -   Open the script and work through the example
 
 -   Point out that because each row in our dataframe represents a prediction (look at the documentation to confirm this), the question is equivalent to "how many rows of data are there for each year" so we can use n()
+
+-   Point out that we've changed both the number of rows in the dataframe and the unit of analysis
 :::
 
 ## `n()`within `summarize()`
@@ -751,7 +776,7 @@ There are two main types of join:
 
 -   The first step when joining data is to identify the primary and foreign keys you'll work with
 
--   Always check that your primary & foreign keys are truly unique to each row!
+-   Always check that your primary key is unique to each row! Foreign keys may or may not be unique.
 
 ::: notes
 -   Every join involves a primary key and a foreign key
