@@ -8,7 +8,6 @@ format:
     theme: serif
     incremental: true
     embed-resources: true
-    chalkboard: true
 df-print: paged
 execute:
   echo: true

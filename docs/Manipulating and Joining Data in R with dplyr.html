@@ -445,7 +445,7 @@
 
   <meta name="author" content="Lubov McKone">
   <meta name="dcterms.date" content="2025-03-11">
-  <title>Reshaping and Joining Data in R with dplyr – Manipulating and Joining Data in R with dplyr</title>
+  <title>Reshaping and Joining Data in R with dplyr</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -2482,7 +2482,7 @@ window.onload = function() {
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Manipulating and Joining Data in R with dplyr</h1>
+  <h1 class="title">Reshaping and Joining Data in R with dplyr</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -2497,18 +2497,25 @@ Lubov McKone
 
   <p class="date">2025-03-11</p>
 </section>
-<section id="logistics" class="slide level2">
-<h2>Logistics</h2>
-<p>Your continued participation indicates your consent to be recorded. This recording may be shared with the JHU community.</p>
-<p>Any questions you ask verbally or in chat will be edited to protect your identity.</p>
-<ul>
-<li class="fragment">If you have questions throughout the webinar, please put them in the chat for our TA to answer (or message the TA directly)</li>
-</ul>
+<section id="welcome" class="slide level2">
+<h2>Welcome!</h2>
+<p>Today’s session will not be recorded.</p>
+<p>Please feel free to ask questions verbally or in the chat, and I will do my best to answer them as we move through the training today.</p>
+<p>We will take a break halfway through the training at 11am.</p>
 <aside class="notes">
-<p>We have a lot to cover today and I may not be able to answer all questions</p>
-<p>Our TA will assist you</p>
-<p>If you have a general question, I encourage you to message the full chat because someone else might have the same question and will benefit from the answer</p>
-<p>PRESS RECORD</p>
+<aside class="notes">
+<p>If you have a question, I encourage you to ask it because someone else might have the same question and will benefit from the answer</p>
+<style type="text/css">
+span.MJX_Assistive_MathML {
+position:absolute!important;
+clip: rect(1px, 1px, 1px, 1px);
+padding: 1px 0 0 0!important;
+border: 0!important;
+height: 1px!important;
+width: 1px!important;
+overflow: hidden!important;
+display:block!important;
+}</style></aside>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
@@ -2521,6 +2528,7 @@ overflow: hidden!important;
 display:block!important;
 }</style></aside>
 </section>
+
 <section id="jhu-data-services" class="slide level2">
 <h2>JHU Data Services</h2>
 <h3 id="we-help-faculty-researchers-and-students-find-use-manage-visualize-and-share-data.">We help faculty, researchers, and students find, use, manage, visualize, and share data.</h3>
@@ -2549,6 +2557,7 @@ display:block!important;
 <ul>
 <li class="fragment"><p>A template R script that we will fill out today called <code>class_script_blank.R</code></p></li>
 <li class="fragment"><p>dplyr cheatsheet</p></li>
+<li class="fragment"><p>A link to a website where you can find the slides and final code from this workshop.</p></li>
 <li class="fragment"><p>Basic knowledge of R</p>
 <ul>
 <li class="fragment"><p>Installing and loading packages</p></li>
@@ -2557,6 +2566,8 @@ display:block!important;
 </ul>
 <aside class="notes">
 <ul>
+<li><p>Put link in chat: <a href="https://jhu-data-services.github.io/dplyr-quarto-site/" class="uri">https://jhu-data-services.github.io/dplyr-quarto-site/</a></p></li>
+<li><p>Mention that the point of the workshop is to learn by synthesizing information, but the code is there for you if you miss something or want to go back.</p></li>
 <li><p>Go to RStudio and open up the file class_script_blank.R</p></li>
 <li><p>Make sure everyone can open the file</p></li>
 </ul>
@@ -2633,7 +2644,7 @@ display:block!important;
 <ul>
 <li><p>Go to the script and run the lines to load in the data</p></li>
 <li><p>Describe how to view the data from the environment pane</p></li>
-<li><p>Go to the documentation for the dataset and describe a little about what the data represents</p></li>
+<li><p>Go to the documentation for the dataset and describe a little about what the data represents <a href="https://github.com/rfordatascience/tidytuesday/blob/main/data/2024/2024-01-30/readme.md" class="uri">https://github.com/rfordatascience/tidytuesday/blob/main/data/2024/2024-01-30/readme.md</a></p></li>
 <li><p>Note that we are reading in two related datasets - briefly look at groundhogs and note that we’ll be putting this dataset aside for now to work with later</p></li>
 <li><p>Look more closely at predictions - one row per prediction, id represents the groundhog that made the prediction</p></li>
 <li><p>Note the data types of each variable and highlight that transformations we will talk about today may operate differently on variables of different types</p></li>
@@ -3049,6 +3060,7 @@ display:block!important;
 <li><p>We’ll mainly be working with our predictions table to answer our question of whether there is any pattern to groundhog predictions</p></li>
 <li><p>There are a few things we want to change and verify in the data before we start calculating new variabales</p></li>
 <li><p>The way I like to approach data reshaping is to envision the table I want to end up with and work backwards from there. For our question, it would be nice to have table with one row per year that gives the percentage of groundhogs that saw their shadow that year.</p></li>
+<li><p>In order to make this percentage, we need to have counts of the number of groundhogs that saw their shadow in a given year, and the total number that made predictions each year</p></li>
 <li><p>Once you have more experience using dplyr, you’ll start to be able to identify things that will throw off your desired groupings and calculations.</p></li>
 <li><p>One thing that jumps out to me about the predictions table is that there are rows that represent years with no recorded prediction - we want to filter these out because they will mess up our counts of predictions each year</p></li>
 <li><p>We also want to make sure there is only one record per groundhog per year</p></li>
@@ -3162,6 +3174,7 @@ display:block!important;
 <li><p>You can use any helper function in any library to summarize data inside of summarize, which is what makes it so powerful</p></li>
 <li><p>Open the script and work through the example</p></li>
 <li><p>Point out that because each row in our dataframe represents a prediction (look at the documentation to confirm this), the question is equivalent to “how many rows of data are there for each year” so we can use n()</p></li>
+<li><p>Point out that we’ve changed both the number of rows in the dataframe and the unit of analysis</p></li>
 </ul>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -3636,7 +3649,7 @@ display:block!important;
 <li class="fragment"><p>A foreign key is just another table’s primary key that matches your tables’ primary key. It might have a different name or be spread across more or less variables.</p></li>
 </ul></li>
 <li class="fragment"><p>The first step when joining data is to identify the primary and foreign keys you’ll work with</p></li>
-<li class="fragment"><p>Always check that your primary &amp; foreign keys are truly unique to each row!</p></li>
+<li class="fragment"><p>Always check that your primary key is unique to each row! Foreign keys may or may not be unique.</p></li>
 </ul>
 <aside class="notes">
 <ul>
