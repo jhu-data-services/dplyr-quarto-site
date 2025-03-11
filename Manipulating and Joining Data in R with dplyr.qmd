@@ -1,5 +1,5 @@
 ---
-title: "Manipulating and Joining Data in R with dplyr"
+title: "Reshaping and Joining Data in R with dplyr"
 author: Lubov McKone
 institute: Johns Hopkins Libraries Data Services
 date: March 11, 2025
