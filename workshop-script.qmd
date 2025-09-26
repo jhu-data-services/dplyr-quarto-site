@@ -133,7 +133,7 @@ left_join(groundhogs, predictions, join_by(id == id))
 inner_join(predictions, groundhogs, join_by(id == id))
 
 # add variables from groundhogs to predictions. Add rows even if the groundhog isn't in groundhog_predictions
-full_join(groundhog_predictions, groundhogs, join_by(groundhog_id == id))
+full_join(predictions, groundhogs, join_by(id == id))
 
 # Using our joined predictions_groundhogs table, let's create a summary table comparing the rate at which real groundhogs vs alternative groundhogs saw their shadows each year.
 predictions_groundhogs |>
