@@ -10,7 +10,6 @@ Below is the final version of the script we worked on together during the worksh
 
 ### In-class exercises
 
-
 ```{r}
 library(tidyverse)
 
@@ -31,10 +30,32 @@ filter(predictions, year %in% c(2020, 2021))
 predictions |>
   filter(year >= 1900 & year <= 2000)
 
-# create a subset of your data where "shadow" has a value of either TRUE or FALSE. Make sure there are no duplicate rows, and sort the result by descending year.
+# sort our predictions by year
+predictions |> arrange(year)
+
+# sort our predictions by year, descending 
+predictions |> arrange(desc(year))
+
+# find unique rows in the predictions dataset
+predictions |> distinct()
+
+# list the unique years in the predictions dataset
+predictions |> distinct(year)
+
+# list unique combinations of groundhog id and year in the predictions dataset
+predictions |> distinct(year, id)
+
+# list the first instance of unique combinations of groundhog id and year in the predictions dataset
+# and keep all columns
+predictions |> distinct(year, id, .keep_all = TRUE)
+
+# check for duplicate predictions
+predictions |> distinct(id, year) # since the number of distinct combinations of year and id is the same as the number of rows in the dataset, we know we don't have any duplicates to remove
+
+# create a subset of your data where "shadow" has a value of either TRUE or FALSE, and sort the result by descending year.
 predictions <- predictions |>
   filter(shadow %in% c(TRUE, FALSE)) |>
-  distinct(year, id, .keep_all = TRUE) |>
+  # distinct(year, id, .keep_all = TRUE) |> # if we found duplicates, we'd need this line!
   arrange(desc(year))
 
 # group predictions by year 
@@ -77,7 +98,7 @@ predictions |>
 predictions |>
   mutate(details_length = nchar(details), .after = id)
 
-# create a column that indicates whether the prediction was made by Punxatawney Phil
+# create a column that indicates whether the prediction was made by Punxsutawney Phil
 predictions |> 
   mutate(phil = if_else(id == 1, 'TRUE', 'FALSE'))
 
@@ -87,38 +108,40 @@ predictions |>
                              year < 2000 & year >= 1900 ~ 20,
                              year >= 2000 ~ 21))
 
-# Working off of our table with the number of predictions and number of shadows seen per groundhog, lets:
-# Add a column called shadow_percent that gives the percentage of time each groundhog sees its shadow
-# Filter for groundhogs with more than 5 predictions
-# Keep only the variables id and shadow_percent, and rename id to groundhog_id 
-# Assign the result to a variable groundhog_predictions 
-groundhog_predictions <- predictions |>
-  group_by(id) |>
+# Working off of our table with the number of predictions and number of shadows seen per year, lets:
+# Add a column called shadow_percent that gives the percentage of groundhogs that saw their shadow that year
+# Filter for years that had at least 5 predictions
+# Keep only the variables year and shadow_percent, and rename year to prediction_year 
+# Assign the result to a variable year_predictions 
+year_predictions <- predictions |>
+  group_by(year) |>
   summarize(n_predictions = n(),
             n_shadows = sum(shadow == TRUE)) |>
   mutate(shadow_percent = n_shadows/n_predictions) |>
   filter(n_predictions > 5) |>
-  select(id, shadow_percent) |>
-  rename(groundhog_id = id)
+  select(year, shadow_percent) |>
+  rename(prediction_year = year)
 
-# add the variables from groundhogs to our groundhog_predictions table
-left_join(groundhog_predictions, groundhogs, join_by(groundhog_id == id))
+# add the variables from the groundhogs table to the predictions table and save the result as predictions_groundhogs
+predictions_groundhogs <- left_join(predictions, groundhogs, join_by(id == id))
 
-# add the variables from groundhog_predictions to the groundhogs table 
-right_join(groundhog_predictions, groundhogs, join_by(groundhog_id == id))
-left_join(groundhogs, groundhog_predictions, join_by(id == groundhog_id))
+# add the variables from predictions to the groundhogs table 
+right_join(predictions, groundhogs, join_by(id == id))
+left_join(groundhogs, predictions, join_by(id == id))
 
-# add variables from groundhogs to groundhog_predictions where keys appear in both tables
-inner_join(groundhog_predictions, groundhogs, join_by(groundhog_id == id))
+# add variables from groundhogs to predictions where keys appear in both tables
+inner_join(predictions, groundhogs, join_by(id == id))
 
-# add variables from groundhogs to groundhog_predictions. Add rows even if the groundhog isn't in groundhog_predictions
+# add variables from groundhogs to predictions. Add rows even if the groundhog isn't in groundhog_predictions
 full_join(groundhog_predictions, groundhogs, join_by(groundhog_id == id))
 
-# Bonus exercises
-# Write code to calculate the column predictions_count in groundhogs
-# Write code to calculate the column is_groundhog in groundhogs
-# Calculate the proportion of groundhogs from each country that make predictions each year
-# Add a column to groundhogs indicating the first year each groundhog saw its shadow
+# Using our joined predictions_groundhogs table, let's create a summary table comparing the rate at which real groundhogs vs alternative groundhogs saw their shadows each year.
+predictions_groundhogs |>
+  group_by(year, is_groundhog) |>
+  summarize(n_predictions = n(),
+            n_shadows = sum(shadow == TRUE)) |>
+  mutate(percent_shadow = n_shadows/n_predictions) |>
+  arrange(desc(year), is_groundhog)
 ```
 
 ### Bonus Exercises

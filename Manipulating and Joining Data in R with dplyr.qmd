@@ -1,8 +1,8 @@
 ---
 title: "Reshaping and Joining Data in R with dplyr"
-author: Lubov McKone
+author: Lubov McKone & Chen Chiu
 institute: Johns Hopkins Libraries Data Services
-date: March 11, 2025
+date: September 29, 2025
 format:
   revealjs: 
     theme: serif
@@ -28,13 +28,23 @@ If you have a question, I encourage you to ask it because someone else might hav
 :::
 ::::
 
-## Logistics {visibility="hidden"}
+## Recording logistics {visibility="hidden"}
 
 Your continued participation indicates your consent to be recorded. This recording may be shared with the JHU community.
 
 Any questions you ask verbally or in chat will be edited to protect your identity.
 
--   If you have questions throughout the webinar, please put them in the chat for our TA to answer (or message the TA directly)
+::: notes
+PRESS RECORD
+:::
+
+## Troubleshooting and assistance
+
+If you have questions throughout the webinar, please put them in the chat for our TA to answer (or message the TA directly)
+
+Include the error message you receive and the line of code that caused it
+
+Screenshots can also be helpful
 
 ::: notes
 We have a lot to cover today and I may not be able to answer all questions
@@ -42,8 +52,6 @@ We have a lot to cover today and I may not be able to answer all questions
 Our TA will assist you
 
 If you have a general question, I encourage you to message the full chat because someone else might have the same question and will benefit from the answer
-
-PRESS RECORD
 :::
 
 ## JHU Data Services
@@ -89,6 +97,8 @@ PRESS RECORD
 ::: notes
 -   Put link in chat: <https://jhu-data-services.github.io/dplyr-quarto-site/>
 
+-   Navigate to script in site and mention that while I will be switching between code and slides, the code will be here for their reference so keep this link open in case you miss something.
+
 -   Mention that the point of the workshop is to learn by synthesizing information, but the code is there for you if you miss something or want to go back.
 
 -   Go to RStudio and open up the file class_script_blank.R
@@ -115,12 +125,9 @@ library(tidyverse)
 ## Review: reading and viewing data {.incremental}
 
 ```{r}
-
 # we'll be looking at data on Groundhog predictions
 groundhogs <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-01-30/groundhogs.csv')
 predictions <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-01-30/predictions.csv')
-
-
 ```
 
 You can view a dataframe in R using `View()` or by clicking the object in the environment pane.
@@ -145,11 +152,23 @@ head(predictions)
 -   Note the data types of each variable and highlight that transformations we will talk about today may operate differently on variables of different types
 :::
 
+## Groundhog Day 🕳️
+
+::::: columns
+::: {.column width="70%"}
+According to Pennsylvania Dutch superstition, if a groundhog emerges from its burrow on February 2 and sees its shadow, winter will continue for 6 more weeks. No shadow means an early spring! The first and most famous prophesying groundhog is Punxsutawney Phil, but [87 other groundhogs have followed in his footsteps](https://groundhog-day.com/groundhogs), making their own predictions each year.
+:::
+
+::: {.column width="30%"}
+![](images/Screenshot 2025-09-25 at 15-18-27 punxsutawney phil - Google Search.png){fig-align="center"}
+:::
+:::::
+
 ## Our task today
 
--   We are groundhog mythbusters and our goal is to collect some summary statistics about the groundhog prediction phenomenon.
+-   We are researchers studying whether groundhogs can really predict an early spring.
 
--   Our main question is whether different groundhogs are more or less likely to predict an early spring.
+-   To start our research, we'll need to conduct some exploratory analyses about patterns in groundhog predictions so we can compare them to weather trends.
 
 -   Over the course of this workshop, we'll be creating summary tables that will set us up for further visualization and analysis.
 
@@ -218,37 +237,17 @@ In every dplyr verb:
 ::: incremental
 -   the first argument is always dataframe
 
+-   The subsequent arguments describe what to do with the dataframe, using the variable names (without quotes)
+
 -   the output is always a new dataframe
 
--   arguments with a . in front of them are settings for the function, not column names
+-   arguments with a . in front of them are settings for the function, not variable names
 :::
 
 ::: notes
 -   All of the dplyr verbs have a few things in common
 
 -   This makes them easy to use together because the output of each can be seen as the input to another
-:::
-
-## the pipe 💉
-
-::: incremental
--   Each verb does one thing very well, so you'll typically chain together multiple verbs. The **pipe** helps you do this by passing the result of every action onto the next action.
-
--   The pipe is represented in R as `|>`. Everything to the left of the pipe is passed as the first argument to the thing immediately to the right of the pipe.
-
--   `x |> f(y)` is equivalent to `f(x, y)`
-
--   `x |> f(y) |> g(x)` is equivalent to`g(f(x,y), z)`
-
--   ⚠️ The pipe does not save new variables automatically
-:::
-
-::: notes
--   The pipe helps us build up our ideal dataframe one step at a time.
-
--   It saves us from having to create new variables every time we do anything to our data
-
--   Some of you maybe be familiar with the old pipe, %\>%, which came from a library called magrittr. The pipe is now integrated into base R so there's nothing extra you need to install to use it
 :::
 
 ## row verbs
@@ -292,10 +291,35 @@ filter(predictions, year == 2020)
 # find groundhog predictions from 2020 and 2021
 filter(predictions, year == 2020 | year == 2021)
 filter(predictions, year %in% c(2020, 2021))
-
-# find groundhog predictions from 2020 where a shadow was seen
-filter(predictions, year == 2020 & shadow == TRUE)
 ```
+
+## the pipe operator 🔗
+
+::: incremental
+-   Each verb does one thing very well, so you'll typically chain together multiple verbs. The **pipe** helps you do this by passing the result of every action onto the next action.
+
+-   The pipe is represented in R as `|>`. Everything to the left of the pipe is passed as the first argument to the thing immediately to the right of the pipe.
+
+-   `x |> f(y)` is equivalent to `f(x, y)`
+
+-   `x |> f(y) |> g(x)` is equivalent to`g(f(x,y), z)`
+
+-   ⚠️ The pipe does not save new variables automatically
+:::
+
+::: notes
+-   The pipe helps us build up our ideal dataframe one step at a time.
+
+-   It saves us from having to create new variables every time we do anything to our data
+
+-   Because the first argument of every dplyr verb is a dataframe, the pipe can be used to feed a dataframe into the first argument of a verb
+
+-   And because the output of every verb is a dataframe, the output of every dplyr verb can be piped into the first input of the next
+
+-   dplyr and the pipe work very well together for this reason
+
+-   Some of you maybe be familiar with the old pipe, %\>%, which came from a library called magrittr. The pipe is now integrated into base R so there's nothing extra you need to install to use it
+:::
 
 ## `filter()`: your turn!
 
@@ -363,21 +387,17 @@ arrange(predictions, desc(year))
 
 ## row verbs: `distinct()`
 
-`distinct()`: finds all the unique rows based on the values of one or more columns
+`distinct()`: finds all the unique values or combinations of values of the column(s) supplied to it.
 
--   Without any additional inputs, `distinct()` finds and keeps the first occurence of all unique rows
+-   Without any additional inputs, `distinct()` finds and keeps all unique rows
 
 -   You can optionally supply one or more columns to check for distinct combinations of
 
 -   If you want to retain all of the columns, set the `.keep_all` argument to `TRUE`
 
-```{r}
-# list the unique years in the predictions dataset
-predictions |>
-  distinct(year)
-```
-
 ::: notes
+-   Go to script and go through 4 examples to illustrate the behavior of distinct, note the number of rows that are retained
+
 -   You'll notice that when you specify a column, by default only that column is retained
 
 -   You can keep all columns with the .keep_all argument
@@ -387,13 +407,21 @@ predictions |>
 -   For instance, if we had a variable for time of prediction and you wanted to keep the first prediction from each year, you would sort the data by year, time, and then use distinct()
 :::
 
+## Prediction trends over time
+
+-   Our final goal is to learn whether groundhogs can really predict an early spring.
+
+-   The first thing we'd like to know is the percent of groundhogs that predict an early spring each year.
+
+-   We want a table with one row per year that gives us the percentage of groundhogs that saw their shadow that year.
+
 ## 🚩checkpoint: row verbs
 
 Let's put it all together!
 
--   Remove rows with no prediction record
+-   Check for and remove duplicate predictions
 
--   Remove duplicate predictions
+-   Remove rows with no prediction
 
 -   Sort the result by year, descending
 
@@ -418,7 +446,7 @@ Let's put it all together!
 
 -   Finally, we want to sort the dataframe in descending order simply because the later years are more interesting because there are more groundhogs on the scene.
 
--   Write the code in the script
+-   Write the code in the script (start with using distinct to check for duplicate predictions).
 :::
 
 ## 🚩checkpoint: row verbs
@@ -427,7 +455,7 @@ Let's put it all together!
 # create a subset of your data where "shadow" has a value of either TRUE or FALSE. Make sure there are no duplicate rows, and sort the result by ascending year.
 predictions <- predictions |>
   filter(shadow %in% c(TRUE, FALSE)) |>
-  distinct(year, id, .keep_all = TRUE) |>
+  # distinct(year, id, .keep_all = TRUE) |> # if we found duplicates, we'd need this line!
   arrange(desc(year))
 ```
 
@@ -472,7 +500,7 @@ predictions |>
 
 -   The syntax is `dataframe |> group_by(column) |> summarize(new_variable = summary_function(..))`
 
--   One of the most important summaries is `n()`, which counts the observations (rows) in each group.
+-   One of the most important summary functions is `n()`, which counts the observations (rows) in each group.
 
 -   Let's try it together: How many predictions were made in each year?
 
@@ -600,7 +628,7 @@ predictions |>
 ```
 
 ::: notes
-Porbably break at this point if it's near 45 minutes in!
+Probably break at this point if it's near 45 minutes in!
 :::
 
 ## column verbs
@@ -623,7 +651,7 @@ Now that we've calculated some summary variables within the groups that interest
 
 `mutate()` adds new columns calculated from existing columns
 
--   By default, columns are added on the left side of the dataframe. You can use the `.before` or `.after` to specify where the new variable should fall
+By default, columns are added on the left side of the dataframe. You can use the `.before` or `.after` to specify where the new variable should fall
 
 ```{r}
 # calculate how many characters are in the details field and put the variable after id
@@ -698,17 +726,15 @@ predictions |>
 
 ## 🚩checkpoint: put it all together!
 
-Let's return to our original research question: Are certain groundhogs more likely to see their shadow than others?
+Let's return to our original question: What is the rate of shadows seen each year? Working off of our table with the number of predictions and number of shadows seen per **year**, lets:
 
-Working off of our table with the number of predictions and number of shadows seen per groundhog, lets:
+-   Add a column called `shadow_percent` that gives the percentage of groundhogs that saw their shadow that year.
 
--   Add a column called `shadow_percent` that gives the percentage of time each groundhog sees its shadow
+-   Filter for years that had at least 5 predictions
 
--   Filter for groundhogs with more than 5 predictions
+-   Keep only the variables `year` and `shadow_percent`, and rename year to `prediction_year`
 
--   Keep only the variables `id` and `shadow_percent`, and rename id to `groundhog_id`
-
--   Assign the result to a variable `groundhog_predictions`
+-   Assign the result to a variable `year_predictions`
 
 ::: notes
 -   Open up the script and copy and paste what we will be working on
@@ -719,14 +745,14 @@ Working off of our table with the number of predictions and number of shadows se
 ## 🚩checkpoint: put it all together!
 
 ```{r}
-groundhog_predictions <- predictions |>
-  group_by(id) |>
+year_predictions <- predictions |>
+  group_by(year) |>
   summarize(n_predictions = n(),
             n_shadows = sum(shadow == TRUE)) |>
   mutate(shadow_percent = n_shadows/n_predictions) |>
   filter(n_predictions > 5) |>
-  select(id, shadow_percent) |>
-  rename(groundhog_id = id)
+  select(year, shadow_percent) |>
+  rename(prediction_year = year)
 ```
 
 ::: notes
@@ -735,9 +761,11 @@ groundhog_predictions <- predictions |>
 
 ## table verbs: joining data
 
-We've done a lot with the mere 4 variables in our predictions table!
+We've focused on **year** as our main unit of analysis so far, and learned a lot with the mere 4 variables in our `predictions` table!
 
-What if we wanted to enhance our data with more information about each groundhog from the `groundhogs` table?
+Let's turn our attention to the `groundhogs` table - some of these groundhogs are not like the others...
+
+If we wanted to filter out "alternative groundhogs" from the prediction calculations, we need to add information about each groundhog from the `groundhogs` table to `predictions`
 
 ```{r}
 head(groundhogs)
@@ -746,9 +774,9 @@ head(groundhogs)
 ::: notes
 -   Open the script and look at the groundhogs table
 
--   Point out the type variable
+-   Point out the `is_groundhog` variable
 
--   Let's find out how often groundhogs of different types see their shadow!
+-   Let's join groundhogs to predictions!
 :::
 
 ## join terminology
@@ -794,7 +822,7 @@ There are two main types of join:
 ## joining predictions & groundhogs
 
 ```{r}
-head(groundhog_predictions, 3)
+head(predictions, 3)
 ```
 
 ```{r}
@@ -806,22 +834,22 @@ head(groundhogs, 3)
 
 -   Ask attendees what will our primary table be?
 
--   We want to add the variables from groundhogs to our groundhog predictions table
+-   We want to add the variables from groundhogs to our predictions table
 
 -   Ask what attendees think the primary and foreign key will be
 :::
 
 ## joining predictions & groundhogs
 
--   How would we determine if there is a difference between the average shadow prediction rate of different types of groundhogs?
+-   How would we determine if there is a difference between the yearly shadow prediction rate of real vs. alternative groundhogs?
 
--   primary key: `groundhog_id` in `groundhog_predictions`
+-   primary key: `id` in `predictions`
 
 -   foreign key: `id` in `groundhogs`
 
 ## joining predictions & groundhogs
 
--   We want to add the variables from `groundhogs` to our `groundhog_predictions` table
+-   We want to add the variables from `groundhogs` to our `predictions` table
 
 -   We'll need a **mutating join**, specifically a **left join**.
 
@@ -830,7 +858,7 @@ head(groundhogs, 3)
 -   `left_join(x, y, join_by(x.key == y.key))`
 
 ::: notes
--   We want to add the variables from `groundhogs` to our `groundhog_predictions` table
+-   We want to add the variables from `groundhogs` to our `predictions` table
 
 -   We'll need a **mutating join because we want to add data**, specifically a **left join**.
 
@@ -844,7 +872,7 @@ head(groundhogs, 3)
 ## joining predictions & groundhogs
 
 ```{r}
-left_join(groundhog_predictions, groundhogs, join_by(groundhog_id == id))
+predictions_groundhogs <- left_join(predictions, groundhogs, join_by(id == id))
 ```
 
 ## more mutating joins
@@ -897,11 +925,11 @@ filtering joins subset one dataframe based on matching characteristics with anot
 
 ## join exercises
 
--   `groundhog_predictions` contains one row per 50 unique groundhogs
+-   `predictions` contains one row per 1317 unique predictions
 
--   `groundhogs` contains one row per 65 unique groundhogs
+-   `groundhogs` contains one row per 75 unique groundhogs
 
--   Every groundhog in `groundhog_prediction`s appears in `groundhogs`
+-   Every groundhog in `prediction`s appears in `groundhogs`
 
     -   How many rows would each of the following joins have: right join with `groundhogs` on the right, inner join, full join, semi_join, anti_join?
 
@@ -927,6 +955,8 @@ filtering joins subset one dataframe based on matching characteristics with anot
 
 -   `bind_rows()` pastes rows onto the bottom of a dataframe
 
+    -   the dataframes must have the same columns
+
 -   `bind_cols()` pastes columns onto the right of a dataframe.
 
 -   There are no conditions in these functions, you can think of them as copy-and-paste.
@@ -935,18 +965,17 @@ filtering joins subset one dataframe based on matching characteristics with anot
 
 Let's put everything we've learned together!
 
-Let's create a summary table that gives the rate at which each type of groundhog sees its' shadow
+Using our joined `predictions_groundhogs` table, let's create a summary table comparing the rate at which real groundhogs vs alternative groundhogs saw their shadows each year.
 
 ## 🏁 finish line
 
 ```{r}
-predictions |>
-  left_join(groundhogs, join_by(id == id)) |>
-  group_by(type) |>
-  summarize(n_groundhogs = n_distinct(id),
-            n_predictions = n(),
+predictions_groundhogs |>
+  group_by(year, is_groundhog) |>
+  summarize(n_predictions = n(),
             n_shadows = sum(shadow == TRUE)) |>
-  mutate(percent_shadow = n_shadows/n_predictions)
+  mutate(percent_shadow = n_shadows/n_predictions) |>
+  arrange(desc(year), is_groundhog)
 ```
 
 ## 🏆 bonus exercises
@@ -1007,8 +1036,12 @@ Please take the post-workshop survey: <https://bit.ly/dplyr-survey>
 
 **Future trainings:**
 
--   Designing Effective Data Visualizations: 3/14 12-2pm
+-   Introduction to Data Visualization in R: 9/30 1-4pm
 
--   Finding a Repository to Share Research Data: 3/26 12-1pm
+-   Transforming your Data in Python with pandas: 10/15 10am-12pm & 10/16 10am-12pm
 
--   Preparing to Share Human Participant Data in a Repository: 4/24 12-1pm
+-   Hopkins AI Lab for Data-Driven Research: Opportunities, Challenges, and Best Practices: 10/28 12-1:30pm & 10/29 12-1:30pm
+
+::: notes
+link <https://dataservices.library.jhu.edu/training-workshops/calendar/> in chat
+:::
