@@ -125,16 +125,6 @@ year_predictions <- predictions |>
 # add the variables from the groundhogs table to the predictions table and save the result as predictions_groundhogs
 predictions_groundhogs <- left_join(predictions, groundhogs, join_by(id == id))
 
-# add the variables from predictions to the groundhogs table 
-right_join(predictions, groundhogs, join_by(id == id))
-left_join(groundhogs, predictions, join_by(id == id))
-
-# add variables from groundhogs to predictions where keys appear in both tables
-inner_join(predictions, groundhogs, join_by(id == id))
-
-# add variables from groundhogs to predictions. Add rows even if the groundhog isn't in groundhog_predictions
-full_join(predictions, groundhogs, join_by(id == id))
-
 # Using our joined predictions_groundhogs table, let's create a summary table comparing the rate at which real groundhogs vs alternative groundhogs saw their shadows each year.
 predictions_groundhogs |>
   group_by(year, is_groundhog) |>

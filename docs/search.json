@@ -32,7 +32,7 @@
     "href": "Manipulating and Joining Data in R with dplyr.html#welcome",
     "title": "Reshaping and Joining Data in R with dplyr",
     "section": "Welcome!",
-    "text": "Welcome!\nToday’s session will not be recorded.\nPlease feel free to ask questions verbally or in the chat, and I will do my best to answer them as we move through the training today.\nWe will take a break halfway through the training at 11am.\n\n\nIf you have a question, I encourage you to ask it because someone else might have the same question and will benefit from the answer"
+    "text": "Welcome!\nPlease feel free to ask questions verbally or in the chat, and I will do my best to answer them as we move through the training today.\nWe will take a break halfway through the training at 11am.\n\n\nIf you have a question, I encourage you to ask it because someone else might have the same question and will benefit from the answer"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#jhu-data-services",
@@ -60,7 +60,7 @@
     "href": "Manipulating and Joining Data in R with dplyr.html#libraries",
     "title": "Reshaping and Joining Data in R with dplyr",
     "section": "Libraries",
-    "text": "Libraries\nToday we’ll be using the tidyverse library, which includes dplyr.\n\nlibrary(tidyverse)\n\nWarning: package 'tidyverse' was built under R version 4.3.2\n\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.2     ✔ readr     2.1.4\n✔ forcats   1.0.0     ✔ stringr   1.5.0\n✔ ggplot2   3.4.2     ✔ tibble    3.2.1\n✔ lubridate 1.9.2     ✔ tidyr     1.3.0\n✔ purrr     1.0.1     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n\n\n\nGot to the script and describe how to run code in R\nNote the functions that will be masked by dplyr"
+    "text": "Libraries\nToday we’ll be using the tidyverse library, which includes dplyr.\n\nlibrary(tidyverse)\n\nWarning: package 'tidyverse' was built under R version 4.3.2\n\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.2     ✔ readr     2.1.4\n✔ forcats   1.0.0     ✔ stringr   1.5.0\n✔ ggplot2   4.0.1     ✔ tibble    3.2.1\n✔ lubridate 1.9.2     ✔ tidyr     1.3.0\n✔ purrr     1.0.1     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n\n\n\nGot to the script and describe how to run code in R\nNote the functions that will be masked by dplyr"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#review-reading-and-viewing-data",
@@ -375,7 +375,7 @@
     "href": "Manipulating and Joining Data in R with dplyr.html#join-exercises",
     "title": "Reshaping and Joining Data in R with dplyr",
     "section": "join exercises",
-    "text": "join exercises\n\npredictions contains one row per 1317 unique predictions\ngroundhogs contains one row per 75 unique groundhogs\nEvery groundhog in predictions appears in groundhogs\n\nHow many rows would each of the following joins have: right join with groundhogs on the right, inner join, full join, semi_join, anti_join?\n\n\n\n\ndemonstrate a right vs. left join - show how the number of rows differ and explain that this is because we filtered out 15 rows from groundhog_predictions\ndemonstrate inner join - explain that it is the same as the left join because all of the keys in groundhog_predictions appear in groundhogs\ndemonstrate full join"
+    "text": "join exercises\n\npredictions contains one row per 1317 unique predictions\ngroundhogs contains one row per 75 unique groundhogs\nEvery groundhog in predictions appears in groundhogs and vice versa\n\nHow many rows would each of the following joins have: right join with groundhogs on the right, inner join, full join?\n\n\n\n\ntrick question - they are all the same because every groundhog appears in predictions and every groundhog id in predictions appears in groundhogs - one to one relationship"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#more-complex-join-conditions",
@@ -438,7 +438,7 @@
     "href": "Manipulating and Joining Data in R with dplyr.html#troubleshooting-and-assistance",
     "title": "Reshaping and Joining Data in R with dplyr",
     "section": "Troubleshooting and assistance",
-    "text": "Troubleshooting and assistance\nIf you have questions throughout the webinar, please put them in the chat for our TA to answer (or message the TA directly)\nInclude the error message you receive and the line of code that caused it\nScreenshots can also be helpful\n\nWe have a lot to cover today and I may not be able to answer all questions\nOur TA will assist you\nIf you have a general question, I encourage you to message the full chat because someone else might have the same question and will benefit from the answer"
+    "text": "Troubleshooting and assistance\nIf you have questions throughout the webinar, include the error message you receive and the line of code that caused it.\nScreenshots can also be helpful\n\nIf you have a general question, I encourage you to message the full chat because someone else might have the same question and will benefit from the answer"
   },
   {
     "objectID": "Manipulating and Joining Data in R with dplyr.html#groundhog-day",
@@ -460,5 +460,12 @@
     "title": "Reshaping and Joining Data in R with dplyr",
     "section": "Prediction trends over time",
     "text": "Prediction trends over time\n\nOur final goal is to learn whether groundhogs can really predict an early spring.\nThe first thing we’d like to know is the percent of groundhogs that predict an early spring each year.\nWe want a table with one row per year that gives us the percentage of groundhogs that saw their shadow that year."
+  },
+  {
+    "objectID": "Manipulating and Joining Data in R with dplyr.html#recording-logistics",
+    "href": "Manipulating and Joining Data in R with dplyr.html#recording-logistics",
+    "title": "Reshaping and Joining Data in R with dplyr",
+    "section": "Recording logistics",
+    "text": "Recording logistics\nYour continued participation indicates your consent to be recorded. This recording may be shared with the JHU community.\nAny questions you ask verbally or in chat will be edited to protect your identity.\n\nPRESS RECORD"
   }
 ]

@@ -1,8 +1,8 @@
 ---
 title: "Reshaping and Joining Data in R with dplyr"
-author: Lubov McKone & Chen Chiu
+author: Lubov McKone
 institute: Johns Hopkins Libraries Data Services
-date: September 29, 2025
+date: March 12, 2026
 format:
   revealjs: 
     theme: serif
@@ -16,8 +16,6 @@ editor: visual
 
 ## Welcome!
 
-Today's session will not be recorded.
-
 Please feel free to ask questions verbally or in the chat, and I will do my best to answer them as we move through the training today.
 
 We will take a break halfway through the training at 11am.
@@ -28,7 +26,7 @@ If you have a question, I encourage you to ask it because someone else might hav
 :::
 ::::
 
-## Recording logistics {visibility="hidden"}
+## Recording logistics
 
 Your continued participation indicates your consent to be recorded. This recording may be shared with the JHU community.
 
@@ -40,17 +38,11 @@ PRESS RECORD
 
 ## Troubleshooting and assistance
 
-If you have questions throughout the webinar, please put them in the chat for our TA to answer (or message the TA directly)
-
-Include the error message you receive and the line of code that caused it
+If you have questions throughout the webinar, include the error message you receive and the line of code that caused it.
 
 Screenshots can also be helpful
 
 ::: notes
-We have a lot to cover today and I may not be able to answer all questions
-
-Our TA will assist you
-
 If you have a general question, I encourage you to message the full chat because someone else might have the same question and will benefit from the answer
 :::
 
@@ -160,7 +152,7 @@ According to Pennsylvania Dutch superstition, if a groundhog emerges from its bu
 :::
 
 ::: {.column width="30%"}
-![](images/Screenshot 2025-09-25 at 15-18-27 punxsutawney phil - Google Search.png){fig-align="center"}
+![](images/Screenshot%202025-09-25%20at%2015-18-27%20punxsutawney%20phil%20-%20Google%20Search.png){fig-align="center"}
 :::
 :::::
 
@@ -929,16 +921,12 @@ filtering joins subset one dataframe based on matching characteristics with anot
 
 -   `groundhogs` contains one row per 75 unique groundhogs
 
--   Every groundhog in `prediction`s appears in `groundhogs`
+-   Every groundhog in `predictions` appears in `groundhogs` and vice versa
 
-    -   How many rows would each of the following joins have: right join with `groundhogs` on the right, inner join, full join, semi_join, anti_join?
+    -   How many rows would each of the following joins have: right join with `groundhogs` on the right, inner join, full join?
 
 ::: notes
--   demonstrate a right vs. left join - show how the number of rows differ and explain that this is because we filtered out 15 rows from groundhog_predictions
-
--   demonstrate inner join - explain that it is the same as the left join because all of the keys in groundhog_predictions appear in groundhogs
-
--   demonstrate full join
+-   trick question - they are all the same because every groundhog appears in predictions and every groundhog id in predictions appears in groundhogs - one to one relationship
 :::
 
 ## more complex join conditions
