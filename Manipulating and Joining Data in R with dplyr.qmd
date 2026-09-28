@@ -2,7 +2,7 @@
 title: "Reshaping and Joining Data in R with dplyr"
 author: Lubov McKone
 institute: Johns Hopkins Libraries Data Services
-date: March 12, 2026
+date: September 26, 2026
 format:
   revealjs: 
     theme: serif
@@ -18,7 +18,7 @@ editor: visual
 
 Please feel free to ask questions verbally or in the chat, and I will do my best to answer them as we move through the training today.
 
-We will take a break halfway through the training at 11am.
+We will take a break halfway through the training.
 
 :::: notes
 ::: notes
@@ -396,7 +396,7 @@ arrange(predictions, desc(year))
 
 -   Note that distinct only retains the first occurence of the variable(s) you specify. If you are only keeping those variables, that doesn't matter so much, but if you keep all variables, note that you may want to be intentional about how you sort your dataframe if you want a certain unique row retained
 
--   For instance, if we had a variable for time of prediction and you wanted to keep the first prediction from each year, you would sort the data by year, time, and then use distinct()
+-   For instance, when we use distinct() on shadow, we're looking at the earliest occurrence of each value of shadow. If we wanted to keep the latest occurence, you would sort the data by descending year, and then use distinct()
 :::
 
 ## Prediction trends over time
@@ -563,7 +563,7 @@ predictions |>
 
 -   `sum()`: finds the sum of a given column within a group. You can also specify conditions within `sum()` to calculate the number of records within a group that meet a certain condition.
 
--   Exercise: Let's return to our dataframe with the number of predictions in each year. How would we add a column for the number of shadows seen in each year?
+-   Exercise: How many times did each groundhog see its shadow?
 
 ::: notes
 -   sum is a deceiving flexible helper function
@@ -582,45 +582,47 @@ predictions |>
 ## `sum()` within `summarize()`
 
 ```{r}
-# Let's return to our dataframe with the number of predictions in each year. 
-# How would we add a column for the number of shadows seen in each year?
+# How many times did each goundhog see it's shadow?
 predictions |>
-  group_by(year) |>
-  summarize(n_predictions = n(),
-            n_shadows = sum(shadow == TRUE)) 
+  group_by(id) |>
+  summarize(n_shadows = sum(shadow == TRUE)) 
 ```
 
 ## 🚩checkpoint: group verbs
 
-Your turn! Create a dataframe with three variables:
+Your turn!
+
+Let's return to our goal of creating a table with one row per year that gives us the percentage of groundhogs that saw their shadow that year. Create a dataframe with three variables:
 
 ::: nonincremental
--   groundhog id
+-   year
 
--   the number of total predictions each groundhog has made
+-   the number of total predictions made in each year
 
--   the number of times each groundhog has seen it's shadow.
+-   the number of total shadows seen each year
 :::
 
 ::: notes
 For this one, direct attendees to take 5 minutes to try it by themselves, then come back and go over any questions
+
+Hint: they already did the first two bullets in a previous exercise.
 :::
 
 ## 🚩checkpoint: group verbs
 
 ```{r}
 # Create a dataframe with 3 variables: 
-# groundhog id
-# the number of total predictions each groundhog has made
-# the number of times each groundhog has seen its shadow
+# year
+# the number of total predictions made that year
+# the number of total shadows seen that year
 predictions |>
-  group_by(id) |>
+  group_by(year) |>
   summarize(n_predictions = n(),
             n_shadows = sum(shadow == TRUE))
 ```
 
 ::: notes
-Probably break at this point if it's near 45 minutes in!
+Break at this point if it's near 1 hour in
 :::
 
 ## column verbs
@@ -757,7 +759,7 @@ We've focused on **year** as our main unit of analysis so far, and learned a lot
 
 Let's turn our attention to the `groundhogs` table - some of these groundhogs are not like the others...
 
-If we wanted to filter out "alternative groundhogs" from the prediction calculations, we need to add information about each groundhog from the `groundhogs` table to `predictions`
+If we wanted to filter out "alternative groundhogs" from the prediction calculations, we need to add information from the `predictions` table to the `groundhogs` table.
 
 ```{r}
 head(groundhogs)
@@ -785,17 +787,15 @@ There are two main types of join:
 -   filtering joins aren't joins in the traditional sense because they don't add data, they are just advanced ways of filtering dataframes based on another dataframe
 :::
 
-## join terminology 🗝️
+## primary & foreign keys🗝️
 
 -   Every join involves a **primary key** and a **foreign key**
 
-    -   A primary key is a variable or set of variables that uniquely identifies an observation
+    -   A primary key is a variable or set of variables that **uniquely** identifies an observation
 
-    -   A foreign key is just another table's primary key that matches your tables' primary key. It might have a different name or be spread across more or less variables.
+    -   A foreign key is a variable or set of variables that matches your tables' primary key. It might have a different name, be spread across more or less variables, and it may or may not be unique.
 
--   The first step when joining data is to identify the primary and foreign keys you'll work with
-
--   Always check that your primary key is unique to each row! Foreign keys may or may not be unique.
+-   The first step when joining data is to identify the primary keys of each table.
 
 ::: notes
 -   Every join involves a primary key and a foreign key
@@ -806,55 +806,67 @@ There are two main types of join:
 
 -   The first step when joining data is to identify the primary and foreign keys you'll work with
 
--   While your primary keys absolutely have to be unique, your foreign keys don't necessarily have to be, but it's best practice for everything to be one to one
-
--   When possible, you want unique primary and foreign keys
+-   While your primary keys absolutely have to be unique, your foreign keys don't necessarily have to be, but it's best practice for everything to be one to on
 :::
+
+## types of joins
+
+-   **one-to-one joins** connect a single observation in one table to a single observation in another table. This happens when both the primary and foreign keys are unique.
+
+-   **one-to-many joins** connect a single observation in one table to many observations in another table. This happens when the foreign key is not unique.
 
 ## joining predictions & groundhogs
 
+What is the primary key of `predictions`? What about `groundhogs`?
+
+::::: columns
+::: {.column width="50%"}
 ```{r}
 head(predictions, 3)
 ```
+:::
 
+::: {.column width="50%"}
 ```{r}
 head(groundhogs, 3)
 ```
+:::
+:::::
 
 ::: notes
 -   We want to determine if there is a difference between the average shadow prediction rate of different types of groundhogs
 
 -   Ask attendees what will our primary table be?
 
--   We want to add the variables from groundhogs to our predictions table
+-   We want to add the variables from predictions to our groundhogs table
 
 -   Ask what attendees think the primary and foreign key will be
 :::
 
 ## joining predictions & groundhogs
 
--   How would we determine if there is a difference between the yearly shadow prediction rate of real vs. alternative groundhogs?
+-   How would we combine the data in `groundhogs` and predictions, if we wanted to see all columns from both tables?
 
--   primary key: `id` in `predictions`
+-   primary key: `id` in `groundhogs` (unique)
 
--   foreign key: `id` in `groundhogs`
+-   foreign key: `id` in `predictions` (not unique)
 
 ## joining predictions & groundhogs
 
--   We want to add the variables from `groundhogs` to our `predictions` table
+-   We want to add the variables from `predictions` to our `groundhogs` table
 
--   We'll need a **mutating join**, specifically a **left join**.
+-   We'll need a **mutating join**, and we're going to use an **inner** **join**
 
--   A **left join** retains all rows in the left dataframe, and adds additional data in from the right dataframe if the keys match.
+-   An **inner join** keeps rows with keys that appear in both dataframes
 
--   `left_join(x, y, join_by(x.key == y.key))`
+-   `inner_join(x, y, join_by(x.key == y.key))`
 
 ::: notes
--   We want to add the variables from `groundhogs` to our `predictions` table
+-   We want to add the variables from `predictions` to our `groundhogs` table
 
--   We'll need a **mutating join because we want to add data**, specifically a **left join**.
+-   We'll need a **mutating join because we want to add data**, specifically an **inner** **join**.
 
--   A **left join** retains all rows in the left dataframe, and adds additional data in from the right dataframe if the keys match.
+-   An **inner join** keeps rows with keys that appear in both dataframes.
 
 -   ask attendees what dataframe will be on the left and which on the right
 
@@ -864,38 +876,18 @@ head(groundhogs, 3)
 ## joining predictions & groundhogs
 
 ```{r}
-predictions_groundhogs <- left_join(predictions, groundhogs, join_by(id == id))
+inner_join(groundhogs, predictions, join_by(id == id))
 ```
 
 ## more mutating joins
 
+`left_join()` keeps everything in the left dataframe and adds in data from the left
+
 `right_join()` keeps everything in the right dataframe and adds in data from the left
-
-::::: columns
-::: {.column width="50%"}
-![](images/dplyr_left_join.png){fig-align="center"}
-:::
-
-::: {.column width="50%"}
-![](images/dplyr_right_join.png){fig-align="center"}
-:::
-:::::
-
-## more mutating joins
-
-`inner_join()` keeps rows with keys that appear in both dataframes
 
 `full_join()` keeps all rows from both dataframes
 
-::::: columns
-::: {.column width="50%"}
-![](images/dplyr_inner_join.png){fig-align="center"}
-:::
-
-::: {.column width="50%"}
-![](images/dplyr_full_join.png){fig-align="center"}
-:::
-:::::
+If every groundhog in `predictions` appears in `groundhogs` and vice versa, how many rows would each of the following joins have: right join with `groundhogs` on the right, inner join, full join?
 
 ## filtering joins
 
@@ -915,19 +907,14 @@ filtering joins subset one dataframe based on matching characteristics with anot
 :::
 :::::
 
-## join exercises
+## filtering joins
 
--   `predictions` contains one row per 1317 unique predictions
+Remember how we wanted to only analyze the predictions that were made by real groundhogs? We can use a filtering join! Specifically a semi join.
 
--   `groundhogs` contains one row per 75 unique groundhogs
-
--   Every groundhog in `predictions` appears in `groundhogs` and vice versa
-
-    -   How many rows would each of the following joins have: right join with `groundhogs` on the right, inner join, full join?
-
-::: notes
--   trick question - they are all the same because every groundhog appears in predictions and every groundhog id in predictions appears in groundhogs - one to one relationship
-:::
+```{r}
+# keep all rows in predictions that were made by a real groundhog and save the result as real_groundhog_predictions
+real_groundhog_predictions <- semi_join(predictions, groundhogs |> filter(is_groundhog == TRUE), join_by(id == id))
+```
 
 ## more complex join conditions
 
@@ -953,17 +940,25 @@ filtering joins subset one dataframe based on matching characteristics with anot
 
 Let's put everything we've learned together!
 
-Using our joined `predictions_groundhogs` table, let's create a summary table comparing the rate at which real groundhogs vs alternative groundhogs saw their shadows each year.
+Let's re-create our summary table with the percent of shadows seen each year, this time only including real groundhogs in our calculation, and save the result as groundhog_predictions_summary
 
 ## 🏁 finish line
 
 ```{r}
-predictions_groundhogs |>
-  group_by(year, is_groundhog) |>
+groundhog_predictions_summary <- real_groundhog_predictions |>
+  group_by(year) |>
   summarize(n_predictions = n(),
             n_shadows = sum(shadow == TRUE)) |>
   mutate(percent_shadow = n_shadows/n_predictions) |>
-  arrange(desc(year), is_groundhog)
+  arrange(desc(year))
+```
+
+## 💾 saving our dataset
+
+We've created a dataset that is ready to be compared with yearly weather trends! Let's save it to a csv so we can use it into the future.
+
+```{r}
+write.csv(groundhog_predictions_summary, "groundhog_predictions_summary.csv")
 ```
 
 ## 🏆 bonus exercises
@@ -1008,27 +1003,23 @@ predictions_groundhogs |>
 :::
 :::::
 
-## resources
-
--   R for Data Science 2e, Chapters [3](https://r4ds.hadley.nz/data-transform) & [19](https://r4ds.hadley.nz/joins)
-
--   [dplyr documentation](https://dplyr.tidyverse.org/index.html)
-
--   [Software Carpentries: Data Frame Manipulation with dplyr](https://swcarpentry.github.io/r-novice-gapminder/13-dplyr.html)
-
--   Website for the workshop: <https://jhu-data-services.github.io/dplyr-quarto-site/>
-
 ## thank you! 🙏
 
-Please take the post-workshop survey: <https://bit.ly/dplyr-survey>
+::::: columns
+::: {.column width="30%"}
+Please take the post-workshop survey:
 
+![](images/survey-qrcode-01.png)
+:::
+
+::: {.column width="70%"}
 **Future trainings:**
 
--   Introduction to Data Visualization in R: 9/30 1-4pm
+-   [Interactive Data Visualization in R with Shiny](https://jhu.libcal.com/calendar/workshops/data-vis-shiny): 10/5, 10/7, & 10/9 10am - 12pm
 
--   Transforming your Data in Python with pandas: 10/15 10am-12pm & 10/16 10am-12pm
-
--   Hopkins AI Lab for Data-Driven Research: Opportunities, Challenges, and Best Practices: 10/28 12-1:30pm & 10/29 12-1:30pm
+-   [Creating Automated Reports in R: An Introduction to Quarto](https://jhu.libcal.com/calendar/workshops/quarto): 10/28 12pm - 1pm
+:::
+:::::
 
 ::: notes
 link <https://dataservices.library.jhu.edu/training-workshops/calendar/> in chat
