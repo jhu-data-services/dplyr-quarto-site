@@ -78,8 +78,6 @@ If you have a general question, I encourage you to message the full chat because
 
 -   dplyr cheatsheet
 
--   A link to a website where you can find the slides and final code from this workshop.
-
 -   Basic knowledge of R
 
     -   Installing and loading packages
