@@ -759,7 +759,7 @@ We've focused on **year** as our main unit of analysis so far, and learned a lot
 
 Let's turn our attention to the `groundhogs` table - some of these groundhogs are not like the others...
 
-If we wanted to filter out "alternative groundhogs" from the prediction calculations, we need to add information from the `predictions` table to the `groundhogs` table.
+If we wanted to filter out "alternative groundhogs" from the prediction calculations, we need information from the `groundhogs` table.
 
 ```{r}
 head(groundhogs)
@@ -822,13 +822,13 @@ What is the primary key of `predictions`? What about `groundhogs`?
 ::::: columns
 ::: {.column width="50%"}
 ```{r}
-head(predictions, 3)
+head(predictions)
 ```
 :::
 
 ::: {.column width="50%"}
 ```{r}
-head(groundhogs, 3)
+head(groundhogs)
 ```
 :::
 :::::
@@ -845,7 +845,7 @@ head(groundhogs, 3)
 
 ## joining predictions & groundhogs
 
--   How would we combine the data in `groundhogs` and predictions, if we wanted to see all columns from both tables?
+-   How would we combine the data in `groundhogs` and `predictions`, if we wanted to see all columns from both tables together?
 
 -   primary key: `id` in `groundhogs` (unique)
 
@@ -853,22 +853,20 @@ head(groundhogs, 3)
 
 ## joining predictions & groundhogs
 
--   We want to add the variables from `predictions` to our `groundhogs` table
-
 -   We'll need a **mutating join**, and we're going to use an **inner** **join**
 
--   An **inner join** keeps rows with keys that appear in both dataframes
+-   An **inner join** keeps all rows from both tables, as long as the keys appear in both
 
 -   `inner_join(x, y, join_by(x.key == y.key))`
 
+-   `predictions` contains 1317 unique predictions, and `groundhogs` contains 75 unique groundhogs. Every groundhog in `predictions` appears in `groundhogs` and vice versa. How many rows will our joined table have?
+
 ::: notes
--   We want to add the variables from `predictions` to our `groundhogs` table
+-   We want to combine the variables from the `predictions` and `groundhogs` tables
 
 -   We'll need a **mutating join because we want to add data**, specifically an **inner** **join**.
 
 -   An **inner join** keeps rows with keys that appear in both dataframes.
-
--   ask attendees what dataframe will be on the left and which on the right
 
 -   Open the script and write the code
 :::
@@ -876,18 +874,22 @@ head(groundhogs, 3)
 ## joining predictions & groundhogs
 
 ```{r}
-inner_join(groundhogs, predictions, join_by(id == id))
+inner_join(predictions, groundhogs, join_by(id == id))
 ```
 
 ## more mutating joins
 
-`left_join()` keeps everything in the left dataframe and adds in data from the left
+`left_join(x, y)` keeps all rows in x and adds in data from y if keys match
 
-`right_join()` keeps everything in the right dataframe and adds in data from the left
+`right_join(x, y)` keeps all rows in y and adds in data from x if keys match
 
-`full_join()` keeps all rows from both dataframes
+`full_join(x, y)` keeps all rows from x & y, with missing values if no match
 
-If every groundhog in `predictions` appears in `groundhogs` and vice versa, how many rows would each of the following joins have: right join with `groundhogs` on the right, inner join, full join?
+::: notes
+-   in left and right joins, either the left or right table can have the primary key
+
+-   Answer to exercise: trick question because since all keys match, all these join will be the same
+:::
 
 ## filtering joins
 

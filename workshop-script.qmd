@@ -118,8 +118,8 @@ year_predictions <- predictions |>
   select(year, shadow_percent) |>
   rename(prediction_year = year)
 
-# add the variables from the predictions table to the groundhogs table
-inner_join(groundhogs, predictions, join_by(id == id))
+# Combine the data from predictions and groundhogs
+inner_join(predictions, groundhogs, join_by(id == id))
 
 # keep all rows in predictions that were made by a real groundhog and save the result as real_groundhog_predictions
 real_groundhog_predictions <- semi_join(predictions, (groundhogs |> filter(is_groundhog == TRUE)), join_by(id == id))
